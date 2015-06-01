@@ -1,0 +1,55 @@
+#wrapperContainer {
+	width: 100%;
+  	position: absolute;
+  	top: 0px;
+  	overflow-y:auto;
+  	display:block;
+  }
+.page {
+	display:none;
+  	vertical-align: middle;
+  	color:rgba(255,255,255,1);
+}
+/**********************************
+Blog
+**********************************/
+#_blog {
+	padding-top:50px;
+	padding-bottom:50px;
+}
+.lang {
+	display:none;
+}
+.blogLeft {
+	width:20%;
+}
+.blogLeftControls {
+	font-family:'Arial',sans-serif;
+	font-size:10px;
+	text-align:right;
+}
+.blogLeftControls span.icon {
+	margin-left: 20px;
+  margin-right: 30px;
+  font-size: 20px;
+  width: 20px;
+  position: relative;
+  top: 3px;
+}
+.blogLeftControlsEntry span.description {
+	text-transform:uppercase;
+}
+.blogRight {
+	padding-right:15%;
+}
+.blogRightTitle h1 {
+	font-family:'Josefin Slab',sans-serif;
+	font-weight:700;
+	font-size:30px;
+}
+.blogRightContent {
+	font-family:'Open Sans', sans-serif;
+	font-weight:300;
+	font-size:14px;
+	line-height:30px;
+}

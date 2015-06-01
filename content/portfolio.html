@@ -1,0 +1,121 @@
+<!-- TEMPLATES -->
+<script id="blogTemplate" type="text/x-jsrender">
+  <tr class="blogRow">
+  	<td class="blogLeft">
+  		<div class="blogLeftControls">
+  			<p class="blogLeftControlsDate">
+  				<span class="description">{{:date}}</span><span class="icon fa fa-calendar"></span>
+  			</p>
+  			<p class="blogLeftControlsTime">
+  				<span class="description">{{:time}}</span><span class="icon fa fa-clock-o"></span>
+  			</p>
+  			<p class="blogLeftControlsEntry">
+  				<span class="description">{{:entry}}</span><span class="icon fa fa-question-circle"></span>
+  			</p>
+  		</div> <!-- .blogLeftControls -->
+  	</td> <!-- .blogLeft -->
+  	<td class="blogRight">
+  		<div class="blogRightTitle">
+  			<h1 lang="en" class="lang">{{:title_en}}</h1>
+  			<h1 lang="de" class="lang">{{:title_de}}</h1>
+  			<h1 lang="pl" class="lang">{{:title_pl}}</h1>
+  		</div>
+  		<div class="blogRightContent">
+  			<div class="lang" lang="en">{{:content_en}}</div>
+  			<div class="lang" lang="de">{{:content_en}}</div>
+  			<div class="lang" lang="pl">{{:content_en}}</div>
+  		</div>
+  	</td> <!-- .blogRight -->
+  </tr>
+</script>
+<script id="bioTemplate" type="text/x-jsrender">
+  {{:time}}
+</script>
+<script id="workTemplate" type="text/x-jsrender">
+  {{:time}}
+</script>
+<script id="contactTemplate" type="text/x-jsrender">
+  
+</script>
+<script id="scriptsTemplate" type="text/x-jsrender">
+  
+</script>
+<!-- TEMPLATES END-->
+<div id="header">
+	<div id="topBar">
+		<canvas id="leftParallelogram"></canvas>
+		<canvas id="rightParallelogram"></canvas>
+		<nav id="topMenu" class="topMenu">
+			<a href="#blog">
+				<span class="mainNav_link">BLOG</span>
+			</a><!-- #blog -->
+			<a href="#bio">
+				<span class="mainNav_link">BIO</span>
+			</a><!-- #bio -->
+			<a href="#work">
+				<span class="mainNav_link">WORK</span>
+			</a><!-- #work -->
+			<a href="#contact">
+				<span class="mainNav_link">CONTACT</span>
+			</a><!-- #contact -->
+			<a href="#scripts">
+				<span class="mainNav_link">SCRIPTS</span>
+			</a><!-- #scripts -->
+		</nav><!-- #topMenu -->
+	</div><!-- #topBar -->
+	
+	<div id="topControls">
+		<div class="topControl" id="topControl_music" data-options="on.green,off.red"  data-current="off">
+			<div><span class="topControl_description">SOUND: </span><span class="topControl_status color-red">off</span><span class="topControl_icon fa fa-music"></span></div>
+			<div class="topControls_select"></div>
+		</div>
+		<div class="topControl" id="topControl_language" data-options="en,de,pl" data-current="en">
+			<div><span class="topControl_description">LANGUAGE: </span><span class="topControl_status color-blue">en</span><span class="topControl_icon fa fa-globe"></span></div>
+			<div class="topControls_select"></div>
+		</div>
+	</div><!-- #topControls -->
+</div><!-- #header -->
+<div id="wrapperContainer">
+	<div id="_home" class="page">
+		<div id="logo">
+			<img src="gfx/logo.png">
+		</div>
+		<nav class="mainNav" id="mainNav">
+			<a href="#blog">
+				<span class="mainNav_link">BLOG</span>
+				<span class="mainNav_description">blog</span>
+			</a>
+			<a href="#bio">
+				<span class="mainNav_link">BIO</span>
+				<span class="mainNav_description">blog</span>
+			</a>
+			<a href="#work">
+				<span class="mainNav_link">WORK</span>
+				<span class="mainNav_description">blog</span>
+			</a>
+			<a href="#contact">
+				<span class="mainNav_link">CONTACT</span>
+				<span class="mainNav_description">blog</span>
+			</a>
+			<a href="#scripts">
+				<span class="mainNav_link">SCRIPTS</span>
+				<span class="mainNav_description">blog</span>
+			</a>
+		</nav><!-- #mainNav -->
+	</div><!-- #_home -->
+	<div id="_blog" class="page">
+
+	</div><!-- #_blog -->
+	<div id="_bio" class="page">
+		
+	</div><!-- #_bio -->
+	<div id="_work" class="page">
+		
+	</div><!-- #_work -->
+	<div id="_contact" class="page">
+		
+	</div><!-- #_contact -->
+	<div id="_scripts" class="page">
+		
+	</div><!-- #_scripts -->
+</div><!-- #wrapperContainer -->
