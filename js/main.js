@@ -247,7 +247,7 @@ var portfolio = function() {
 				'display':'block'
 			}).hexList(options.loaded.data.scripts.result, {
 				height: 400,
-				cols:4
+				cols:6
 			});
 		}
 	};
@@ -564,6 +564,11 @@ function mainPreloader() {
 				"background-attachment": "fixed",
 				"background-position": "center"
 			}).fadeIn(function() {
+				$(this).twinkleStars({
+					timespan: 1,
+					blinkSpeed: 0.5,
+					desity: 20
+				});
 				getTemplate('preloader',function(response) {
 					$(options.selector.body).html(response);
 					pr.animate(function() {

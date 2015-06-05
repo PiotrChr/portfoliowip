@@ -117,11 +117,26 @@ HexListClass.prototype.createItem = function(data) {
     var hoverContainer = $('<div />').attr({
         class:'hexListHooverContainer'
     }).append(hoverDiv).append(hoverCanvas);
-    var contentDiv = $.render[this.settings.tmplPreffix + this.settings.theme](data);
-    
+    var contentDiv = $.render[this.settings.tmplPreffix + this.settings.theme](data, {
+        setTechniqueClass: function(items, item) {
+            var array = items.split(',');
+            if (array.indexOf(item) !== -1) {
+                return 'techniqueActive';
+            } else {
+                return 'techniqueInnactive';
+            }
+        }
+    });
+    var bottomContainer = $('<div />').attr({
+            class:'hexListBottomContainer'
+        }).append(contentDiv).append(canvas);
     item = $('<div />').attr({
             class: this.settings.theme + 'Container hexListContainer'
-        }).append(hoverContainer).append(contentDiv).append(canvas);
+        }).css({
+             width: parseInt(this.a * 2) + 'px',
+             height: parseInt(this.r * 2) + 'px',
+             'position':'absolute'
+        }).append(hoverContainer).append(bottomContainer);
 
     return item;
 }
@@ -139,7 +154,7 @@ HexListClass.prototype.setGrid = function() {
     }
 
     this.r = (this.a * Math.sqrt(3))/2;
-    var initial = [this.a, this.a];
+    var initial = [this.a, this.r];
     var offsetX, offsetY;
 
     for (r = 0; r <= this.rows; r++) {
@@ -167,22 +182,23 @@ HexListClass.prototype.drawOnGrid = function(radius,color,border, borderWidth) {
     var canvas = $('<canvas />').attr({
         class: 'hexGridCanvas',
         width: parseInt(2*this.a) + 'px',
-        height: parseInt(2*this.a) + 'px'
+        height: parseInt(2*this.r) + 'px'
     });
 
     var cxt = $(canvas)[0].getContext('2d');
+    var dif = this.a - this.r;
     cxt.beginPath();
-    cxt.moveTo (this.a +  size * Math.cos(0), this.a +  size *  Math.sin(0));          
+    cxt.moveTo (this.a +  size * Math.cos(0), this.a - dif +  size *  Math.sin(0));          
      
     for (var i = 1; i <= numberOfSides;i += 1) {
-        cxt.lineTo (this.a + size * Math.cos(i * 2 * Math.PI / numberOfSides), this.a + size * Math.sin(i * 2 * Math.PI / numberOfSides));
+        cxt.lineTo (this.a + size * Math.cos(i * 2 * Math.PI / numberOfSides), this.a - dif + size * Math.sin(i * 2 * Math.PI / numberOfSides));
     }
     cxt.fillStyle = color;
     cxt.strokeStyle = border;
     cxt.lineWidth = borderWidth;
     cxt.closePath();
     cxt.fill();
-    cxt.stroke();
+    //cxt.stroke();
 
     return canvas;
 }
@@ -190,14 +206,40 @@ HexListClass.prototype.drawOnGrid = function(radius,color,border, borderWidth) {
 
 $.templates("hl@default-light", "<div class=\"default-lightTextTop\">\
                                     <p class=\"default-lightTextTopTitle\">{{:title}}</p>\
-                                    <p class=\"default-lightTextTopTitle\">{{:title2}}</p>\
+                                    <p class=\"default-lightTextTopSubtitle\">{{:subtitle}}</p>\
                                 </div>\
                                 <div class=\"default-lightMid\">\
+                                    <div class=\"defaultLightMidTechniques\">\
+                                        <div class=\"defaultLigthMidTechnique techPhp {{:~setTechniqueClass(techniques,\"php\")}}\">\
+                                            <img src=\"gfx/icons/iconPhp.png\">\
+                                        </div>\
+                                        <div class=\"defaultLigthMidTechnique techDb {{:~setTechniqueClass(techniques,\"db\")}}\">\
+                                            <img src=\"gfx/icons/iconDb.png\">\
+                                        </div>\
+                                        <div class=\"defaultLigthMidTechnique techCss3 {{:~setTechniqueClass(techniques,\"css3\")}}\">\
+                                            <img src=\"gfx/icons/iconCss3.png\">\
+                                        </div>\
+                                        <div class=\"defaultLigthMidTechnique techJs {{:~setTechniqueClass(techniques,\"js\")}}\">\
+                                            <img src=\"gfx/icons/iconJs.png\">\
+                                        </div>\
+                                        <div class=\"defaultLigthMidTechnique techHtml5 {{:~setTechniqueClass(techniques,\"html5\")}}\">\
+                                            <img src=\"gfx/icons/iconHtml5.png\">\
+                                        </div>\
+                                        <div class=\"defaultLigthMidTechnique techSql {{:~setTechniqueClass(techniques,\"sql\")}}\">\
+                                            <img src=\"gfx/icons/iconSql.png\">\
+                                        </div>\
+                                    </div>\
+                                    <div class=\"default-lightMidThumbnail\">\
+                                        <div class=\"default-lightMidThumbnailBorder\">\
+                                            <img src=\"img/{{:thumbnail}}\">\
+                                        </div>\
+                                    </div>\
                                 </div>\
                                 <div class=\"default-lightTextBottom\">\
                                     {{:description}}\
                                 </div>\
                                 ");
-$.templates("hlHover@default-light", "<div></div>\
-                                ");
+$.templates("hlHover@default-light", "<div class=\"default-ligthHoverOverlay\">\
+                                    <img src=\"gfx/github.png\">\
+                                </div>");
 

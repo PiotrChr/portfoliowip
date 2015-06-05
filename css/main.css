@@ -1,6 +1,7 @@
 @import 'menu.css';
 @import 'content.css';
-@import 'stars.css';
+@import 'hexList.css';
+@import 'twinkleStars.css';
 /*
  * What follows is the result of much research on cross-browser styling.
  * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
