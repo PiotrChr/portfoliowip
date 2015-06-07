@@ -247,7 +247,7 @@ var portfolio = function() {
 				'display':'block'
 			}).hexList(options.loaded.data.scripts.result, {
 				height: 400,
-				cols:6
+				cols:5
 			});
 		}
 	};

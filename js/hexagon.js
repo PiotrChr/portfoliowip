@@ -209,23 +209,23 @@ $.templates("hl@default-light", "<div class=\"default-lightTextTop\">\
                                     <p class=\"default-lightTextTopSubtitle\">{{:subtitle}}</p>\
                                 </div>\
                                 <div class=\"default-lightMid\">\
-                                    <div class=\"defaultLightMidTechniques\">\
-                                        <div class=\"defaultLigthMidTechnique techPhp {{:~setTechniqueClass(techniques,\"php\")}}\">\
+                                    <div class=\"default-lightMidTechniques\">\
+                                        <div class=\"default-lightMidTechnique techPhp {{:~setTechniqueClass(techniques,\"php\")}}\">\
                                             <img src=\"gfx/icons/iconPhp.png\">\
                                         </div>\
-                                        <div class=\"defaultLigthMidTechnique techDb {{:~setTechniqueClass(techniques,\"db\")}}\">\
+                                        <div class=\"default-lightMidTechnique techDb {{:~setTechniqueClass(techniques,\"db\")}}\">\
                                             <img src=\"gfx/icons/iconDb.png\">\
                                         </div>\
-                                        <div class=\"defaultLigthMidTechnique techCss3 {{:~setTechniqueClass(techniques,\"css3\")}}\">\
+                                        <div class=\"default-lightMidTechnique techCss3 {{:~setTechniqueClass(techniques,\"css3\")}}\">\
                                             <img src=\"gfx/icons/iconCss3.png\">\
                                         </div>\
-                                        <div class=\"defaultLigthMidTechnique techJs {{:~setTechniqueClass(techniques,\"js\")}}\">\
+                                        <div class=\"default-lightMidTechnique techJs {{:~setTechniqueClass(techniques,\"js\")}}\">\
                                             <img src=\"gfx/icons/iconJs.png\">\
                                         </div>\
-                                        <div class=\"defaultLigthMidTechnique techHtml5 {{:~setTechniqueClass(techniques,\"html5\")}}\">\
+                                        <div class=\"default-lightMidTechnique techHtml5 {{:~setTechniqueClass(techniques,\"html5\")}}\">\
                                             <img src=\"gfx/icons/iconHtml5.png\">\
                                         </div>\
-                                        <div class=\"defaultLigthMidTechnique techSql {{:~setTechniqueClass(techniques,\"sql\")}}\">\
+                                        <div class=\"default-lightMidTechnique techSql {{:~setTechniqueClass(techniques,\"sql\")}}\">\
                                             <img src=\"gfx/icons/iconSql.png\">\
                                         </div>\
                                     </div>\
