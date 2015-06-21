@@ -204,7 +204,7 @@ var portfolio = function() {
 	
 	pt.openAnimation = { // Page animations on open
 		home: function(callback) {
-			$('#_home').css({display:'block'});
+			$('#_home').css({display:'table'});
 			drawPoly(options.selector.cp[0],pt.settings.polys.cp1,'#000',[300,80]);
 			drawPoly(options.selector.cp[1],pt.settings.polys.cp2,'#fff',[360,80]);
 			setTimeout(function() {
@@ -247,7 +247,7 @@ var portfolio = function() {
 				'display':'block'
 			}).hexList(options.loaded.data.scripts.result, {
 				height: 400,
-				cols:5
+				cols:7
 			});
 		}
 	};
@@ -567,7 +567,8 @@ function mainPreloader() {
 				$(this).twinkleStars({
 					timespan: 1,
 					blinkSpeed: 0.5,
-					desity: 20
+					density: 10,
+					moveFactor: 15
 				});
 				getTemplate('preloader',function(response) {
 					$(options.selector.body).html(response);
@@ -691,47 +692,6 @@ var getTemplate = function(name,callback) {
 	});
 
 };
-
-/**************************************
-Custom Functions
-[ Easing addition ]
-***************************************/
-
-$.easing.smoothmove = function (x, t, b, c, d) {
-	return -c *(t/=d)*(t-2) + b;
-};
-
-/**************************************
-Custom Functions
-[ Center BG ]
-***************************************/
-
-var centerImage = function(bgWidth,windowWidth) {
-	var newX = (bgWidth - windowWidth)/2;
-	return newX;
-}
-
-/**************************************
-Custom Functions
-[ Draw Poly ]
-***************************************/
-
-function drawPoly(selector, poly, bg, sizeArray) {
-	var canvas = $(selector)[0];
-	var ctx = canvas.getContext('2d');
-	ctx.canvas.height = sizeArray[1];
-	ctx.canvas.width = sizeArray[0];
-	ctx.fillStyle = bg;
-	ctx.beginPath();
-	ctx.moveTo(poly[0],poly[1]);
-	for( item=2 ; item < poly.length-1 ; item+=2 ){ctx.lineTo( poly[item] , poly[item+1] )}
-	ctx.closePath();
-	ctx.fill();
-}
-
-/**************************************
-END
-***************************************/
 
 var preloader = new mainPreloader();
 var myPortfolio = new portfolio();
