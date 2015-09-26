@@ -18,7 +18,7 @@
  	z-index:3;
  }
 .hexListHooverContainer{
-  -ms-transform: scale(0.1); /* IE 9 */
+    -ms-transform: scale(0.1); /* IE 9 */
     -webkit-transform: scale(0.1); /* Safari */
     transform: scale(0.1);
     opacity:0;
@@ -27,6 +27,10 @@
 .hexListHooverContainer .hexGridCanvas,  .hexListBottomContainer{
   transition:all 0.1s;
  z-index:inherit;	
+}
+
+.hexListContainer {
+  display:none;
 }
 
 .hexListContainer:hover .hexListHooverContainer {

@@ -244,10 +244,16 @@ var portfolio = function() {
 		},
 		scripts: function() {
 			$('#_scripts').css({
-				'display':'block'
+				'display':'block',
+				'height': 600
 			}).hexList(options.loaded.data.scripts.result, {
-				height: 400,
-				cols:7
+				cols:6,
+				animate:true,
+				animation: {
+					duration : 400,
+					type : 'shoot',
+					offset : 200
+				}
 			});
 		}
 	};

@@ -16,6 +16,13 @@ function HexListClass(options) {
     this.grid = [];
     this.settings = $.extend({
        // These are the defaults.
+       debug : 1,
+       animate: true,
+       animation: {
+        type: 'shoot',
+        offset: 400,
+        duration: 1000
+       },
        width : '500',
        height: '500',
        a: 50,
@@ -62,12 +69,20 @@ function HexListClass(options) {
 
 };
 
+HexListClass.prototype.debug = function(debug) {
+    if (debug instanceof Array && this.settings.debug ==  1) {
+        console.log(debug[0]);
+        console.log(debug[1]);
+    }
+}
+
 HexListClass.prototype.fillOrder = function(method) {
     var returnArray = [];
     switch(method) {
         case 'left':
-            for (lc=0;lc<this.cols;lc++) {
-                for (lr=0;lr<this.rows;lr++) {
+            this.debug(['cols',this.cols]);
+            for (lr=0;lr<this.rows;lr++) {
+                for (lc=0;lc<this.cols;lc++) {
                     returnArray.push([lr,lc]);
                 }
             }
@@ -86,13 +101,93 @@ HexListClass.prototype.fillOrder = function(method) {
             // thing
         break;
     }
+
+    this.debug(['Fill order:',returnArray]);
     this.order = returnArray;
+}
+
+HexListClass.prototype.openAnimation = function(object, position, animate, animation, duration, offset, count) {
+    if (animate) {
+        this.debug(['Animation:',animation]);
+        this.debug(['Duration:',duration]);
+        this.debug(['Offset:',offset]);
+    } else {
+        this.debug(['Animation:','none']);
+    }
+    
+    if (typeof count == "undefined") count = 0;
+    if (animate === false) return;
+
+    switch(animation) {
+        case 'fadeIn':
+            console.log(position);
+            object.css({
+                'top':position['top'] + 'px',
+                'left':position['left'] + 'px'
+            });
+            object.delay(count * offset).fadeIn(duration);
+            break;
+        case 'show':
+            object.css({
+                'display':'block',
+                'opacity':1,
+                'top': position['top'],
+                'left': position['left']
+            })
+            break;
+        case 'shoot':
+            object.css({
+                'top':0,
+                'left':0,
+                'display':'block',
+                'opacity':0
+            });
+            object.delay(count * offset).animate({
+                'top': position['top'],
+                'left': position['left'],
+                'opacity':1
+            },duration);
+        default:
+            break;
+    }
 }
 
 HexListClass.prototype.putItems = function() {
     var self = this;
-    $.each(this.items, function() {
-        $(self.settings.container).append(this);
+
+    // if order of filling is known
+    if (typeof self.order == "undefined") return false;
+
+    // reset container
+    $(self.settings.container).html('');
+
+    var count = 0;
+
+    self.debug(['Items',self.items]);
+
+    $.each(self.items, function() {
+        if (typeof self.order[count] == "undefined") return true;
+
+        var cFillOrder = self.order[count];
+        var position = {
+            'top': self.grid[cFillOrder[0]][cFillOrder[1]][1] - (self.a),
+            'left': self.grid[cFillOrder[0]][cFillOrder[1]][0] - (self.r)
+        };
+
+        this.appendTo(self.settings.container);
+
+        self.debug(['Position hexagon-' + count + ' ', position['top'] + ' ' + position['left']]);
+
+        self.openAnimation(
+            this,
+            position,
+            self.settings.animate,
+            self.settings.animation.type,
+            self.settings.animation.duration,
+            self.settings.animation.offset,count
+        );
+
+        count++;
     });
 }
 
@@ -157,22 +252,25 @@ HexListClass.prototype.setGrid = function() {
     var initial = [this.a, this.r];
     var offsetX, offsetY;
 
-    for (r = 0; r <= this.rows; r++) {
+    for (r = 0; r <= this.rows-1; r++) {
         offsetY = initial[0] + (2 * this.r * r);
+        var offsetYcur;
         if (typeof grid[r] === 'undefined') {
             grid[r] = [];
         }
-        for (c = 0; c <= this.cols; c++) {
+        for (c = 0; c <= this.cols-1; c++) {
             if (c%2 !== 0) {
-                offsetY = offsetY + this.r;
+                offsetYcur = offsetY + this.r;
+            } else {
+                offsetYcur = offsetY;
             }
             offsetX = initial[1] + (1.5 * this.a * c);
-            grid[r][c] = [offsetX,offsetY];
+            grid[r][c] = [offsetX,offsetYcur];
         }
     }
 
     this.grid = grid;
-
+    this.debug(['Grid:',grid]);
 };
 
 HexListClass.prototype.drawOnGrid = function(radius,color,border, borderWidth) {

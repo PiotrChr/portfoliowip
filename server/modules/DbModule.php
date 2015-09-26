@@ -12,7 +12,7 @@
 		public function __construct($defaults) 
 		{
 			if ($defaults === true) {
-				$this->setDefaults(1);
+				$this->setDefaults(MYSQL_SETTINGS_INDEX);
 			}
 			
 			$this->mysqli = new mysqli($this->dbHost, $this->dbUser, $this->dbPassword, $this->dbName);
