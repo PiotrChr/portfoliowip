@@ -245,6 +245,7 @@ var portfolio = function() {
 		scripts: function() {
 			$('#_scripts').css({
 				'display':'block',
+				'opacity':1,
 				'height': 600
 			}).hexList(options.loaded.data.scripts.result, {
 				cols:6,
@@ -297,9 +298,16 @@ var portfolio = function() {
 			}
 		},
 		scripts: function(callback) {
-			if (callback instanceof Function) {
-				callback();
-			}
+			$('#_scripts').animate({
+				'opacity':0
+			}, function() {
+				$(this).css({
+					'display':'none'
+				}).html('');
+				if (callback instanceof Function) {
+					callback();
+				}
+			});
 		}
 	};
 	pt.menu = {
