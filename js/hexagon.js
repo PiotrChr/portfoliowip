@@ -28,6 +28,7 @@ function HexListClass(options) {
        a: 50,
        cols: 0,
        tmplPreffix:'hl@',
+       autoHeight: true,
        tmplPreffixHover: 'hlHover@',
        padding: 5,
        minRows: 2,
@@ -63,6 +64,12 @@ function HexListClass(options) {
     
     if (typeof this.items === 'undefined' || this.items.length === 0) {
         this.createItems();
+    }
+
+    if (this.settings.autoHeight === true) {
+        $(this.settings.container).css({
+            'height':this.getHeight() + 'px'
+        });
     }
 
     this.putItems();
@@ -104,6 +111,13 @@ HexListClass.prototype.fillOrder = function(method) {
 
     this.debug(['Fill order:',returnArray]);
     this.order = returnArray;
+}
+
+HexListClass.prototype.getHeight = function() {
+    var rows = Math.ceil(this.items.length / this.cols);
+    // check if there is a new element in the row and then cut by 'a'
+    return (rows * 2 * this.r) + this.r;
+    
 }
 
 HexListClass.prototype.openAnimation = function(object, position, animate, animation, duration, offset, count) {
@@ -239,10 +253,9 @@ HexListClass.prototype.createItem = function(data) {
 HexListClass.prototype.setGrid = function() {
     var grid = [];
     
-    // tutaj coś nie śmiga, za szeoroko wypełnia
     if (this.settings.cols !== 0) {
         this.cols = this.settings.cols;
-        this.a = this.settings.width/(this.cols * 1.5);
+        this.a = (this.settings.width * ((2 * this.cols) - 1)) / (3 * (Math.pow(this.cols,2)));
     } else {
         this.a = this.settings.a;
         this.cols = Math.floor(this.settings.width/(this.a * 1.5));

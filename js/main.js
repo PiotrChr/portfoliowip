@@ -245,11 +245,11 @@ var portfolio = function() {
 		scripts: function() {
 			$('#_scripts').css({
 				'display':'block',
-				'opacity':1,
-				'height': 600
+				'opacity':1
 			}).hexList(options.loaded.data.scripts.result, {
 				cols:6,
 				animate:true,
+				autoHeight: true,
 				animation: {
 					duration : 400,
 					type : 'shoot',
