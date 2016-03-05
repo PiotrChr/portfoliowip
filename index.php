@@ -12,7 +12,7 @@
 		<link href='http://fonts.googleapis.com/css?family=Josefin+Slab:700|Open+Sans:300italic,300|Raleway:400,100,300|Old+Standard+TT' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/main.css?<?php echo date('Hi'); ?>">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-2.1.3.min.js"><\/script>')</script>

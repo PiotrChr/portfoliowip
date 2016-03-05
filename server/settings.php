@@ -8,8 +8,8 @@
 		
 		$settings[1]['mysql_host'] = "localhost";
 		$settings[1]['mysql_database'] = "portfolio";
-		$settings[1]['mysql_user'] = "portfolio";
-		$settings[1]['mysql_password'] = "pztnrv6y";
+		$settings[1]['mysql_user'] = "root";
+		$settings[1]['mysql_password'] = "asd";
 
 		
 define('MYSQL_SETTINGS_INDEX', 1);

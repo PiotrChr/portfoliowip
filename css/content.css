@@ -1,3 +1,5 @@
+
+
 #wrapperContainer {
 	width: 100%;
   	position: absolute;
@@ -9,7 +11,7 @@
 	display:none;
   	vertical-align: middle;
   	color:rgba(255,255,255,1);
-  	min-height: 500px;
+  	min-height: 300px;
 }
 /**********************************
 Home
@@ -29,7 +31,53 @@ Blog
 .lang {
 	display:none;
 }
-.blogLeft {
+
+@media (max-width:800px) {
+	.blogLeft, .bioLeft {
+		width:20%;
+	}
+	.blogLeftControls {
+		font-family:'Arial',sans-serif;
+		font-size:10px;
+		text-align:right;
+	}
+	.blogLeftControls span.icon {
+		margin-left: 20px;
+		margin-right: 30px;
+		font-size: 20px;
+		width: 20px;
+		position: relative;
+		top: 3px;
+	}
+	.blogLeft span.description {
+		display:none;
+		text-transform:uppercase;
+	}
+}
+
+@media (min-width:800px) {
+	.blogLeft, .bioLeft {
+		width:20%;
+	}
+	.blogLeftControls {
+		font-family:'Arial',sans-serif;
+		font-size:10px;
+		text-align:right;
+	}
+	.blogLeftControls span.icon {
+		margin-left: 20px;
+		margin-right: 30px;
+		font-size: 20px;
+		width: 20px;
+		position: relative;
+		top: 3px;
+	}
+	.blogLeftControlsEntry span.description {
+		text-transform:uppercase;
+	}
+}
+
+.blogLeft, .bioLeft {
 	width:20%;
 }
 .blogLeftControls {
@@ -38,7 +86,7 @@ Blog
 	text-align:right;
 }
 .blogLeftControls span.icon {
-	margin-left: 20px;
+  margin-left: 20px;
   margin-right: 30px;
   font-size: 20px;
   width: 20px;
@@ -48,7 +96,7 @@ Blog
 .blogLeftControlsEntry span.description {
 	text-transform:uppercase;
 }
-.blogRight {
+.blogRight, .bioRight {
 	padding-right:15%;
 }
 .blogRightTitle h1 {
@@ -56,7 +104,7 @@ Blog
 	font-weight:700;
 	font-size:30px;
 }
-.blogRightContent {
+.blogRightContent, .bioRightContent {
 	font-family:'Open Sans', sans-serif;
 	font-weight:300;
 	font-size:14px;

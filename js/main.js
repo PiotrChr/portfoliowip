@@ -80,7 +80,7 @@ PORTFOLIO
 var portfolio = function() {
 	var pt = this;
 	pt.active = ''; // active page
-	pt.recent = ''; // recet page
+	pt.recent = ''; // recent page
 	pt.current = 0;
 
 	pt.settings = {
@@ -101,12 +101,24 @@ var portfolio = function() {
 	pt.topControls = { // topControls actions
 		actions: {
 			music: {
+                state: {
+                    on: false
+                },
 				on: function() {
 					pt.sound.play();
+                    pt.topControls.actions.music.state.on = true;
 				},
 				off: function() {
 					pt.sound.pause();
-				}
+                    pt.topControls.actions.music.state.on = false;
+				},
+                toggle: function() {
+                    if (pt.topControls.actions.music.state.on) {
+                        pt.topControls.actions.music.off();
+                    } else {
+                        pt.topControls.actions.music.on();
+                    }
+                }
 			},
 			language: {
 				current: options.settings.language,
@@ -132,61 +144,96 @@ var portfolio = function() {
 				}
 			}
 		},
-		open: function(event) {
-			var target = $(event.currentTarget);
-			var targetOptions = target.data('options').split(',');
-			var current = target.data('current');
-			var html = [];
-			$.each(targetOptions,function(k,v) {
-				var dataClass = '';
-				if (v.indexOf('.') !== -1) {
-					v = v.split('.');
-					dataClass = 'data-class=\'' + v[1] + '\'';
-					v = v[0];
-				} 
-				if (v != current) {
-					html.push('<span ' + dataClass + ' data-option=\'' + v + '\'>' + v + '</span>');
-				}
-			});
-			
-			html = html.join('');
-			var topControls = target.find(options.selector.topControls[2]);
-			topControls.html(html);
-			topControls.stop().css({
-				'display': 'block',
-				'opacity': 0
-			}).animate({
-				top: '0px',
-				opacity:1
-			},200);
-			
+		open: function(event, optionalTarget) {
+            var target = (optionalTarget !== 'undefined') ? optionalTarget : $(event.currentTarget);
+            var targetOptions = target.data('options').split(',');
+            var current = target.data('current');
+            var html = [];
+            var control = target.closest(options.selector.topControls[1]);
+
+            if (control.data('switch') == 'toggle') {
+                var action = control.attr('id').split('_')[1];
+                if (control.data('current') == 'on') {
+                    target.find('.topControl_icon').removeClass('fa-volume-up').addClass('fa-volume-off');
+                    target.data('current','off');
+                    if (pt.topControls.actions[action]['off'] instanceof Function) {
+                        pt.topControls.actions[action]['off']();
+                    }
+                } else {
+                    target.find('.topControl_icon').removeClass('fa-volume-off').addClass('fa-volume-up');
+                    target.data('current','on');
+                    if (pt.topControls.actions[action]['on'] instanceof Function) {
+                        pt.topControls.actions[action]['on']();
+                    }
+                }
+            } else {
+                $.each(targetOptions,function(k,v) {
+                    var dataClass = '';
+                    if (v.indexOf('.') !== -1) {
+                        v = v.split('.');
+                        dataClass = 'data-class=\'' + v[1] + '\'';
+                        v = v[0];
+                    }
+                    //if (v != current) {
+                    //	html.push('<span ' + dataClass + ' data-option=\'' + v + '\'><img src=\'img/icons/'+v+'_topControls.png\'></span>');
+                    //}
+                    html.push('<span ' + dataClass + ' data-option=\'' + v + '\'><img src=\'img/icons/'+v+'_topControls.png\'></span>');
+                });
+
+                html = html.join('');
+                var topControls = target.find(options.selector.topControls[2]);
+                topControls.html(html);
+                topControls.stop().css({
+                    'display': 'block',
+                    'opacity': 0
+                }).animate({
+                    top: '0px',
+                    opacity:1
+                },200);
+            }
 		},
-		close: function(event) {
+		toggle: function(event) {
 			var target = $(event.currentTarget);
+            var topControls = target.find(options.selector.topControls[2]);
+            var visible = topControls.css('display') !== 'none';
+            if (visible && target.data('switch') !== 'toggle') {
+                pt.topControls.close(null,target);
+            } else {
+                pt.topControls.open(null,target);
+            }
+
+		},
+		close: function(event, optionalTarget) {
+            var target = (optionalTarget !== 'undefined') ? optionalTarget : $(event.currentTarget);
 			var topControls = target.find(options.selector.topControls[2]);
-			
-			topControls.stop().animate({
-				top: '-33px',
-				opacity: 0
-			}, function() {
-				topControls.css({
-					'display':'none'
-				})
-				topControls.html('');
-			})	
+			if (target.data('switch') == 'toggle') {
+
+            } else {
+                topControls.stop().animate({
+                    top: '-33px',
+                    opacity: 0
+                }, function() {
+                    topControls.css({
+                        'display':'none'
+                    });
+                    topControls.html('');
+                })
+            }
 		},
 		change: function(event) {
 			var target = $(event.target);
-			var option = target.data('option');
+			var option = target.data('option') || target.closest('span[data-option]').data('option');
 			var control = target.closest(options.selector.topControls[1]);
 			var description = control.find(options.selector.topControls[4]);
 			var action = control.attr('id').split('_')[1];
-			console.log(action);
+
+            console.log(option);
+
 			if (pt.topControls.actions[action][option] instanceof Function) {
-				pt.topControls.actions[action][option]();
+                pt.topControls.actions[action][option]();
 			}
 			control.data('current',option);
-			description.html(option);
+
 			if (typeof target.data('class') !== 'undefined') {
 				description.removeClass(function (index, css) {
 				    return (css.match (/(^|\s)color-\S+/g) || []).join(' ');
@@ -195,12 +242,11 @@ var portfolio = function() {
 			control.trigger('mouseleave');
 		},
 		set: function() {
-			$(options.selector.topControls[0]).on('mouseenter',options.selector.topControls[1], pt.topControls.open);
-			$(options.selector.topControls[0]).on('mouseleave',options.selector.topControls[1], pt.topControls.close);
+			$(options.selector.topControls[0]).on('click',options.selector.topControls[1], pt.topControls.toggle);
 			$(options.selector.topControls[0]).on('click',options.selector.topControls[3], pt.topControls.change);
 
 		}
-	}
+	};
 	
 	pt.openAnimation = { // Page animations on open
 		home: function(callback) {
@@ -221,8 +267,17 @@ var portfolio = function() {
 			},1000);
 
 		},
-		bio: function() {
-
+		bio: function(callback) {
+			$('#_bio').css({
+				'display':'block',
+				'opacity':0
+			}).animate({
+				'opacity':1
+			}, function() {
+				if (callback instanceof Function) {
+					callback();
+				}
+			});
 		},
 		blog: function(callback) {
 			$('#_blog').css({
@@ -273,9 +328,14 @@ var portfolio = function() {
 			});
 		},
 		bio: function(callback) {
-			if (callback instanceof Function) {
-				callback();
-			}
+			$('#_bio').animate({
+				opacity:0
+			},function() {
+				$(this).css({'display':'none'});
+				if (callback instanceof Function) {
+					callback();
+				}
+			});
 		},
 		blog: function(callback) {
 			$('#_blog').animate({
@@ -284,7 +344,9 @@ var portfolio = function() {
 				$(this).css({
 					'display':'none'
 				});
-				callback();
+				if (callback instanceof Function) {
+					callback();
+				}
 			});
 		},
 		work: function(callback) {

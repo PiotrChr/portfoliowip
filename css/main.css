@@ -1,5 +1,5 @@
 @import 'menu.css';
-@import 'content.css';
+@import 'content.css?ver1';
 @import 'hexList.css';
 @import 'twinkleStars.css';
 /*
@@ -91,6 +91,30 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+
+#logo {
+    margin: 0 auto;
+    margin-bottom: 50px;
+    opacity:0;
+}
+
+#logo img {
+    position:relative;
+    max-width:50%;
+}
+@media (orientation: landscape) {
+    #logo {
+        display:none;
+    }
+}
+
+@media (orientation: portrait) {
+    #logo {
+        display:block;
+    }
+}
+
+
 html {
 	width:100%;
 	height:100%;
@@ -122,39 +146,43 @@ body {
 /* ==========================================================================
    Main preloader
    ========================================================================== */
-#logo {
-    margin: 0 auto;
-  display:block;
-  margin-bottom: 50px;
-  opacity:0;
-}
-#logo img {
-    position:relative;
-    max-width:50%;
-}
 
 #mainPreloader {
-	margin-left: auto;
-    margin-right: auto; 
-	position:relative;
-	width:475px;
-	height:125px;
+    margin-left: auto;
+    margin-right: auto;
+    position:relative;
+    width:475px;
+    height:125px;
     top:50%;
     margin-top:-62px;
-	font-weight:100;
-	font-family: 'Raleway', sans-serif;
-	color:white;
+    font-weight:100;
+    font-family: 'Raleway', sans-serif;
+    color:white;
 }
+
+#mainPreloader_leftContainer {
+    width: 200px;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+
+}
+
+@media (max-width:600px)
+{
+    #mainPreloader {
+        width:275px;
+    }
+    #mainPreloader_leftContainer {
+        display:none;
+    }
+}
+
+
 	.mainPreloader_container {
 		float:left;
 	}
-	#mainPreloader_leftContainer {
-		width: 200px;
-		position: relative;
-		overflow: hidden;
-		height: 100%;
-		
-	}
+
 		#mainPreloader_leftContainer p {
 			margin: 0px;
 			height: 33px;

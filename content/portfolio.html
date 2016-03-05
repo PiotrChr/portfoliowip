@@ -22,14 +22,30 @@
   		</div>
   		<div class="blogRightContent">
   			<div class="lang" lang="en">{{:content_en}}</div>
-  			<div class="lang" lang="de">{{:content_en}}</div>
-  			<div class="lang" lang="pl">{{:content_en}}</div>
+  			<div class="lang" lang="de">{{:content_de}}</div>
+  			<div class="lang" lang="pl">{{:content_pl}}</div>
   		</div>
   	</td> <!-- .blogRight -->
   </tr>
 </script>
 <script id="bioTemplate" type="text/x-jsrender">
-  {{:time}}
+  <tr class="bioRow">
+	<td class="bioLeft">
+
+	</td>
+	<td class='bioRight'>
+		<div class="blogRightTitle">
+  			<h1 lang="en" class="lang">{{:title_en}}</h1>
+  			<h1 lang="de" class="lang">{{:title_de}}</h1>
+  			<h1 lang="pl" class="lang">{{:title_pl}}</h1>
+  		</div>
+  		<div class="bioRightContent">
+			<div class="lang" lang="en">{{:content_en}}</div>
+			<div class="lang" lang="de">{{:content_de}}</div>
+			<div class="lang" lang="pl">{{:content_pl}}</div>
+		</div>
+	</td> <!-- bioRight -->
+  </div> <!-- bioRow -->
 </script>
 <script id="workTemplate" type="text/x-jsrender">
   {{:time}}
@@ -46,6 +62,21 @@
 
 <!-- MAIN CONTENT -->
 <div id="header">
+	<div id="topControls">
+		<div class="topControl" id="topControl_music" data-switch="toggle" data-options="on.on_fa-volume-medium,off.off_fa-volume-off"  data-current="off">
+			<div>
+				<!--<span class="topControl_description">SOUND: </span><span class="topControl_status color-red">off</span>-->
+				<span class="topControl_icon fa fa-volume-off"></span>
+			</div>
+		</div>
+		<div class="topControl" id="topControl_language" data-switch="normal" data-options="en,de,pl" data-current="en">
+			<div>
+				<!--<span class="topControl_description">LANGUAGE: </span><span class="topControl_status color-blue">en</span>-->
+				<span class="topControl_icon fa fa-globe"></span>
+			</div>
+			<div class="topControls_select"></div>
+		</div>
+	</div><!-- #topControls -->
 	<div id="topBar">
 		<canvas id="leftParallelogram"></canvas>
 		<canvas id="rightParallelogram"></canvas>
@@ -68,16 +99,7 @@
 		</nav><!-- #topMenu -->
 	</div><!-- #topBar -->
 	
-	<div id="topControls">
-		<div class="topControl" id="topControl_music" data-options="on.green,off.red"  data-current="off">
-			<div><span class="topControl_description">SOUND: </span><span class="topControl_status color-red">off</span><span class="topControl_icon fa fa-music"></span></div>
-			<div class="topControls_select"></div>
-		</div>
-		<div class="topControl" id="topControl_language" data-options="en,de,pl" data-current="en">
-			<div><span class="topControl_description">LANGUAGE: </span><span class="topControl_status color-blue">en</span><span class="topControl_icon fa fa-globe"></span></div>
-			<div class="topControls_select"></div>
-		</div>
-	</div><!-- #topControls -->
+
 </div><!-- #header -->
 <div id="wrapperContainer">
 	<div id="_home" class="page">
