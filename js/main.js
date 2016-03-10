@@ -5,10 +5,12 @@ OPTIONS
 var options = {
 	settings: {
 		bg: 'hiRes', // hiRes | lowRes
-		language: 'en' // de | pl | en
+		language: 'en', // de | pl | en
+		topBarHeight: 80
 	},
 	selector: {
 		bodyWrapper: '#bodyWrapper',
+		backgroundContainer: '#backgroundContainer',
 		body: '#bodyContainer',
 		preloader: '#mainPreloader',
 		loadingList: '#mainPreloader_rightContainer_loadList',
@@ -47,7 +49,7 @@ var options = {
 				options.loaded.data.work = response;
 			}},
 			{url: 'server/server.php/contact', title: 'contactData', callback: function(response) {
-				options.loaded.data.cotact = response;
+				options.loaded.data.contact = response;
 			}},
 			{url: 'server/server.php/scripts', title: 'scriptsData', callback: function(response) {
 				options.loaded.data.scripts = response;
@@ -76,6 +78,20 @@ var options = {
 /**************************************
 PORTFOLIO
 ***************************************/
+var helpers = {
+	stretchAll: function() {
+		var viewportHeight = $(window).innerHeight();
+		var newHeight = viewportHeight - options.settings.topBarHeight;
+		var $toStretch = $('html').find('.auto-height');
+
+		$.each($toStretch, function() {
+			$(this).css({
+				'min-height': newHeight + 'px'
+			});
+		});
+	}
+};
+
 
 var portfolio = function() {
 	var pt = this;
@@ -244,7 +260,9 @@ var portfolio = function() {
 		set: function() {
 			$(options.selector.topControls[0]).on('click',options.selector.topControls[1], pt.topControls.toggle);
 			$(options.selector.topControls[0]).on('click',options.selector.topControls[3], pt.topControls.change);
-
+			$(window).resize(function() {
+				helpers.stretchAll();
+			});
 		}
 	};
 	
@@ -294,8 +312,17 @@ var portfolio = function() {
 		work: function() {
 
 		},
-		contact: function() {
-
+		contact: function(callback) {
+			$('#_contact').css({
+				'display':'block',
+				'opacity':0
+			}).animate({
+				'opacity':1
+			}, function() {
+				if (callback instanceof Function) {
+					callback();
+				}
+			});
 		},
 		scripts: function() {
 			$('#_scripts').css({
@@ -355,9 +382,16 @@ var portfolio = function() {
 			}
 		},
 		contact: function(callback) {
-			if (callback instanceof Function) {
-				callback();
-			}
+			$('#_contact').animate({
+				opacity:0
+			},function() {
+				$(this).css({
+					'display':'none'
+				});
+				if (callback instanceof Function) {
+					callback();
+				}
+			});
 		},
 		scripts: function(callback) {
 			$('#_scripts').animate({
@@ -427,7 +461,7 @@ var portfolio = function() {
 			var topOffset = pt.background.getY(page);
 			var backgroundPosition = -leftOffset + "px " + topOffset + "px";
 			if (animateBg === false) {
-				$(options.selector.bodyWrapper).css({
+				$(options.selector.backgroundContainer).css({
 					"background-position" : backgroundPosition
 				});
 				if (callback instanceof Function) {
@@ -435,7 +469,7 @@ var portfolio = function() {
 				}
 			} else if (animateBg === true) {
 				
-				$(options.selector.bodyWrapper).stop(true,false).animate({
+				$(options.selector.backgroundContainer).stop(true,false).animate({
 					backgroundPosition: backgroundPosition
 				}, {queue:false,duration:1000,easing:'smoothmove',complete: function() {
 					if (callback instanceof Function) {
@@ -445,8 +479,11 @@ var portfolio = function() {
 			}
 		},
 		setBackground : function(background) {
-			$(options.selector.bodyWrapper).css({
-				"background" : "url('" + background + "')"
+			$(options.selector.backgroundContainer).css({
+				"background" : "url('" + background + "')",
+			}).fadeIn(2000,function() {
+				console.log('f');
+				$('#preloaderBackgroundContainer').fadeOut();
 			});
 		},
 		moveBg : function(e) {
@@ -455,9 +492,9 @@ var portfolio = function() {
 			var y = e.pageY;
 			var movementX = (x - $(window).width()/2)/strength * -1;
 			var movementY = (y - $(window).height()/2)/strength * -1;
-			var current = $(options.selector.bodyWrapper).css("background-position").split(" ");
+			var current = $(options.selector.backgroundContainer).css("background-position").split(" ");
 			var newBackgroundPosition = (-parseInt(pt.background.getX()) + parseInt(movementX)) + "px " + (parseInt(pt.background.getY(false)) + parseInt(movementY)) + "px";
-			$(options.selector.bodyWrapper).animate({
+			$(options.selector.backgroundContainer).animate({
 				backgroundPosition: newBackgroundPosition
 			}, {queue:false,duration:1000,easing:'smoothmove'});
 		}
@@ -470,10 +507,11 @@ var portfolio = function() {
 			}
 			pt.active = page;
 			pt.closeRecent(close, function() {
-				$(options.selector.bodyWrapper).off('mousemove',pt.background.moveBg);
+				$(options.selector.wrapperContainer).off('mousemove',pt.background.moveBg);
 				pt.background.setPosition(page, animateBg, function() {
+					helpers.stretchAll();
 					if (pt.openAnimation[page] instanceof Function) {
-						$(options.selector.bodyWrapper).on('mousemove',pt.background.moveBg);
+						$(options.selector.wrapperContainer).on('mousemove',pt.background.moveBg);
 						pt.openAnimation[page]();
 					}
 				});
@@ -576,6 +614,9 @@ var portfolio = function() {
 		pt.topControls.set();
 		pt.menu.set();
 		pt.scrollBar.set();
+
+		var shootingStarObj = new ShootingStar( "#twinkleStars" );
+		shootingStarObj.launch(20);
 	};
 };
 
@@ -633,13 +674,14 @@ function mainPreloader() {
 	};
 	pr.load = function() {
 		preloadPictures(pr.preloaderImage, function() {
-			$(options.selector.bodyWrapper).css({
+			$('#preloaderBackgroundContainer').css({
 				"background" : "url('" + pr.preloaderImage + "')",
 				"display" : "none",
 				"background-repeat": "no-repeat",
 				"background-attachment": "fixed",
 				"background-position": "center"
-			}).fadeIn(function() {
+			}).fadeIn();
+			$(options.selector.bodyWrapper).fadeIn(function() {
 				$(this).twinkleStars({
 					timespan: 1,
 					blinkSpeed: 0.5,

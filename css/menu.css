@@ -46,7 +46,7 @@
 		overflow: hidden;
 		position: absolute;
 		right: 20px;
-		top: 50px;
+		top: 15px;
 	}
 	span.topControl_description {
 		display:none;
@@ -61,7 +61,7 @@
 		overflow: hidden;
 		position: absolute;
 		right: 20px;
-		top: 34px;
+		top: 15px;
 	}
 	span.topControl_description {
 	}
@@ -98,6 +98,7 @@
 			display: block;
 			height: 15px;
 			width: 15px;
+			margin-bottom:4px;
 			font-size: 10px;
 			/*margin-top: -4px;*/
 			text-transform: uppercase;
@@ -106,6 +107,8 @@
 			position:relative;
 			width:100%;
 			height:100%;
+			clip-path: circle(7px at center);
+			-webkit-clip-path: circle(7px at center);
 		}
 		.topControls_select span:first-child {
 			margin-top:0px;
@@ -145,7 +148,7 @@
 		text-shadow: 0 0 1px rgba(255,255,255,0.3);
 		font-size: 10px;
 		font-family: "Raleway", sans-serif;
-		padding: 6px 18px;
+		padding: 6px 17px;
 	}
 }
 
@@ -153,7 +156,7 @@
 	nav#topMenu {
 		width: 264px;
 		margin: 0 auto;
-		margin-top: 15px;
+		margin-top: 45px;
 	}
 
 	nav#topMenu a {

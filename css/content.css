@@ -110,3 +110,61 @@ Blog
 	font-size:14px;
 	line-height:30px;
 }
+
+
+/* contact */
+.contactLinks {
+    position: absolute;
+    font-size: 60px;
+    left: 50%;
+    top: 50%;
+}
+
+.contactLink {
+    cursor:pointer;
+}
+
+.contactLink:hover {
+    color: #ba0000;
+}
+.contactLink {
+	float:left;
+}
+@media (orientation: landscape),  (min-width:600px){
+	.contactLinks {
+		width:240px;
+        height:84px;
+        margin-top: -42px;
+        margin-left: -120px;
+	}
+	.contactLink:first-child {
+		float:left;
+	}
+	.contactLink:nth-child(2) {
+		margin-left:42px;
+	}
+	.contactLink:last-child {
+		float:right;
+	}
+    /*#_contact .fa {*/
+        /*-webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(20%, transparent) , to(rgba(250, 250, 250, 0.2)));*/
+    /*}*/
+}
+
+@media (orientation: portrait), (max-width:600px) {
+	.contactLinks {
+        width:52px;
+        height:250px;
+        margin-top: -125px;
+        margin-left: -26px;
+	}
+    /*#_contact .fa {*/
+        /*-webkit-box-reflect: left 10px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(20%, transparent) , to(rgba(250, 250, 250, 0.2)));*/
+    /*}*/
+
+}
+
+
+
+
+

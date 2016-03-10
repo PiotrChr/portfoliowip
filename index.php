@@ -20,6 +20,7 @@
 		<script src="js/vendor/jsrender.min.js"></script>
 		<script src="js/vendor/jquery.backgroundpos.min.js"></script>
         <script src="js/plugins.js"></script>
+        <script src="js/shootingStar.js"></script>
         <script src="js/twinkleStars.js"></script>
         <script src="js/main.js"></script>
         <script src="js/hexagon.js"></script>
@@ -33,6 +34,8 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
+        <div id="preloaderBackgroundContainer"></div>
+        <div id="backgroundContainer"></div>
 		<div id="bodyWrapper">
 			<div id="bodyContainer">
 			
