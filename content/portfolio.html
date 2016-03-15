@@ -48,7 +48,31 @@
   </div> <!-- bioRow -->
 </script>
 <script id="workTemplate" type="text/x-jsrender">
-  {{:time}}
+	<div class="grid-item">
+		<div class="grid-header">
+			<div class="image-overlay"></div>
+			<img src="img/work/{{:main_image}}">
+		</div>
+		<div class="grid-content">
+			<div class="grid-content-time">
+				<i class="fa fa-clock-o "></i>
+				<span class="">{{:~prettyDate(time)}}</span>
+			</div>
+			<div class="grid-content-title">
+				<div class="lang" lang="en">{{:title_en}}</div>
+				<div class="lang" lang="pl">{{:title_pl}}</div>
+				<div class="lang" lang="de">{{:title_de}}</div>
+			</div>
+			<div class="grid-content-description">
+				<div class="lang" lang="en">{{:content_en}}</div>
+				<div class="lang" lang="pl">{{:content_pl}}</div>
+				<div class="lang" lang="de">{{:content_de}}</div>
+			</div>
+		</div>
+		<div class="grid-footer">
+			<span><i class="fa fa-file-image-o"></i></span><span style="font-size: 11px;margin-left: 10px;"> {{:images.length}} images in gallery</span>
+		</div>
+	</div>
 </script>
 <script id="contactTemplate" type="text/x-jsrender">
   <div class="contactLinks">
@@ -146,7 +170,7 @@
 	<div id="_bio" class="page auto-height">
 		
 	</div><!-- #_bio -->
-	<div id="_work" class="page auto-height">
+	<div id="_work" class="page auto-height grid " data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'>
 		
 	</div><!-- #_work -->
 	<div id="_contact" class="page auto-height">

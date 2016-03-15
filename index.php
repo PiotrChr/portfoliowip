@@ -1,3 +1,8 @@
+<?php
+include 'lib/autoload.php';
+Config::debug();
+$asset = new BasicAssetic();
+?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -10,23 +15,29 @@
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <!-- Place favicon.ico in the root directory -->
 		<link href='http://fonts.googleapis.com/css?family=Josefin+Slab:700|Open+Sans:300italic,300|Raleway:400,100,300|Old+Standard+TT' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css?<?php echo date('Hi'); ?>">
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-2.1.3.min.js"><\/script>')</script>
-		<script src="js/vendor/jquery-ui.min.js"></script>
-		<script src="js/vendor/jsrender.min.js"></script>
-		<script src="js/vendor/jquery.backgroundpos.min.js"></script>
-        <script src="js/plugins.js"></script>
-        <script src="js/shootingStar.js"></script>
-        <script src="js/twinkleStars.js"></script>
-        <script src="js/main.js"></script>
-        <script src="js/hexagon.js"></script>
-        <link rel="stylesheet" href="js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css" />
-        <script src="js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js"></script>
-
+        <?php
+        $asset->asset('css/font-awesome.min.css');
+        $asset->asset('css/normalize.css');
+        $asset->asset('css/main.css');
+        $asset->asset('js/vendor/modernizr-2.8.3.min.js');
+        $asset->asset('http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js',false);
+        ?>
+        <script>window.jQuery || document.write('<?php $asset->asset('js/vendor/jquery-2.1.3.min.js'); ?>')</script>
+        <?php
+        $asset->asset('node_modules/masonry-layout/dist/masonry.pkgd.min.js');
+        $asset->asset('js/vendor/jquery-ui.min.js');
+        $asset->asset('js/vendor/jsrender.min.js');
+        $asset->asset('js/vendor/jquery.backgroundpos.min.js');
+        $asset->asset('js/plugins.js');
+        $asset->asset('js/vendor/jquery.foggy.min.js');
+        $asset->asset('js/shootingStar.js');
+        $asset->asset('js/twinkleStars.js');
+        $asset->asset('js/main.js');
+        $asset->asset('js/hexagon.js');
+        $asset->asset('js/hexagon.js');
+        $asset->asset('js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css');
+        $asset->asset('js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js');
+        ?>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -37,14 +48,8 @@
         <div id="preloaderBackgroundContainer"></div>
         <div id="backgroundContainer"></div>
 		<div id="bodyWrapper">
-			<div id="bodyContainer">
-			
-			</div>
-            
-		</div>
-        
-
-
+			<div id="bodyContainer"></div>
+        </div>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>

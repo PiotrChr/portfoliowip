@@ -1,7 +1,10 @@
 <?php
+include 'settings.php';
+include '../lib/Config.php';
+Config::debug();
+
 	
 	spl_autoload_register('apiAutoload');
-	include 'settings.php';
 	function apiAutoload($classname) {
 		if (preg_match('/[a-zA-Z]+Controller$/', $classname)) {
 			if (file_exists(__DIR__ . '/controllers/' . $classname . '.php')) {

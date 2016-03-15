@@ -89,6 +89,12 @@ var helpers = {
 				'min-height': newHeight + 'px'
 			});
 		});
+	},
+	converters: {
+		prettyDate: function(string) {
+			var dateObject = new Date(Date.parse(string));
+			return dateObject.toDateString();
+		}
 	}
 };
 
@@ -309,8 +315,24 @@ var portfolio = function() {
 				}
 			});
 		},
-		work: function() {
+		work: function(callback) {
+			$('#_work').css({
+				'display':'block',
+				'opacity':0
+			}).animate({
+				'opacity':1
+			}, function() {
+				var $grid = $('.grid').masonry({
+					// options
+					itemSelector: '.grid-item',
+					columnWidth: 300,
+					gutter:10
+				});
 
+				if (callback instanceof Function) {
+					callback();
+				}
+			});
 		},
 		contact: function(callback) {
 			$('#_contact').css({
@@ -377,9 +399,16 @@ var portfolio = function() {
 			});
 		},
 		work: function(callback) {
-			if (callback instanceof Function) {
-				callback();
-			}
+			$('#_work').animate({
+				opacity:0
+			},function() {
+				$(this).css({
+					'display':'none'
+				});
+				if (callback instanceof Function) {
+					callback();
+				}
+			});
 		},
 		contact: function(callback) {
 			$('#_contact').animate({
@@ -482,7 +511,6 @@ var portfolio = function() {
 			$(options.selector.backgroundContainer).css({
 				"background" : "url('" + background + "')",
 			}).fadeIn(2000,function() {
-				console.log('f');
 				$('#preloaderBackgroundContainer').fadeOut();
 			});
 		},
@@ -603,6 +631,20 @@ var portfolio = function() {
 		}
 	}
 
+	pt.binds = {
+		set: function() {
+			$('body').on('mouseenter','.grid-item',function() {
+				$(this).find('.grid-header img').stop().animate({
+					'opacity': 0.8
+				},200);
+				}).on('mouseleave','.grid-item',function() {
+				$(this).find('.grid-header img').stop().animate({
+					'opacity': 1
+				},200)
+			})
+		}
+	}
+
 	pt.start = function() { // start portfolio
 		$(options.selector.body).html(options.loaded.portfolio);
 		pt.content.setWrapperSize();
@@ -614,7 +656,8 @@ var portfolio = function() {
 		pt.topControls.set();
 		pt.menu.set();
 		pt.scrollBar.set();
-
+		pt.binds.set();
+		$('#backgroundContainer').foggy(false);
 		var shootingStarObj = new ShootingStar( "#twinkleStars" );
 		shootingStarObj.launch(20);
 	};
@@ -680,7 +723,11 @@ function mainPreloader() {
 				"background-repeat": "no-repeat",
 				"background-attachment": "fixed",
 				"background-position": "center"
-			}).fadeIn();
+			}).fadeIn().foggy({
+				blurRadius: 2,          // In pixels.
+				opacity: 0.9,           // Falls back to a filter for IE.
+				cssFilterSupport: true  // Use "-webkit-filter" where available.
+			});
 			$(options.selector.bodyWrapper).fadeIn(function() {
 				$(this).twinkleStars({
 					timespan: 1,
@@ -815,6 +862,7 @@ var preloader = new mainPreloader();
 var myPortfolio = new portfolio();
 
 $(function() {
+	$.views.helpers(helpers.converters);
 	preloader.load();
 	$(window).resize(function() {
 		myPortfolio.background.setPosition(false,false);
