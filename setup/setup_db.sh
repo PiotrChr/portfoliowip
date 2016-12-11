@@ -5,7 +5,8 @@ syncFolder="/srv/www/"
 dbPath="/var/lib/mysql/$dbName"
 dbDumpPath=$syncFolder$sources"db/dump.sql"
 
-if ! [[ -d $dbPath ]] ; then
+
+if sudo bash -c "! [[ -d $dbPath ]]"; then
     msg "Creating $dbName Database"
     mysql -u$dbUser -p$dbPassword -e "create database $dbName"
 

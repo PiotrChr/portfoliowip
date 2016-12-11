@@ -80,16 +80,13 @@ if [ ! -d "$tmp" ]; then
 	mkdir $tmp
 fi
 
-#Temp Folder
-msg "Creating TMP folder"
-if [ ! -d "$tmp" ]; then
-mkdir $tmp
-fi
-
-
 # NPM
 msg "Installing Node"
+
+nodePath='/usr/bin/node'
 sudo apt-get -y install nodejs
-sudo ln -s `which nodejs` /usr/bin/node
+if [ ! -d $nodePath ]; then
+    sudo ln -s `which nodejs` $nodePath
+fi
 
 msg "Finished!"
