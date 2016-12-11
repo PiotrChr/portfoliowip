@@ -80,10 +80,11 @@ if [ ! -d "$tmp" ]; then
 	mkdir $tmp
 fi
 
-# #Server Folder
-# if [ ! -d "$tmp" ]; then
-# 	mkdir $tmp
-# fi
+#Temp Folder
+msg "Creating TMP folder"
+if [ ! -d "$tmp" ]; then
+mkdir $tmp
+fi
 
 
 # NPM
