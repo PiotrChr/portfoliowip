@@ -1,5 +1,5 @@
 {
-  "name": "Piotr Chrusciel - portfolio",
+  "name": "portfolio-piotr-chrusciel",
   "version": "1.0.0",
   "description": "Portfolio",
   "author": "Piotr Chrusciel",
@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.3.0",
     "gulp-sass": "^3.0.0"
   },
   "devDependencies": {
