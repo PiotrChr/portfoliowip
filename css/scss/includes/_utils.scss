@@ -1,0 +1,12 @@
+$utility: 'u-';
+
+$utility-warn-color: '#ff0000';
+
+.#{$utility} {
+    &warn {
+        &-color {
+            color: $utility-warn-color;
+        }
+    }
+}
+

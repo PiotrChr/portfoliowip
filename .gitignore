@@ -7,3 +7,4 @@ tmp/*
 tmp/
 server/settings.php
 js/vendor
+node_modules/*
