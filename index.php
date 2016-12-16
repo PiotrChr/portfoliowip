@@ -20,7 +20,9 @@ $asset = new BasicAssetic();
         $asset->asset('css/normalize.css');
         $asset->asset('css/main.css');
         $asset->asset('js/vendor/modernizr-2.8.3.min.js');
-        $asset->asset('http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js',false);
+        $asset->asset('http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js',[
+                'internal' => false
+        ]);
         ?>
         <script>window.jQuery || document.write('<?php $asset->asset('js/vendor/jquery-2.1.3.min.js'); ?>')</script>
         <?php
@@ -35,7 +37,9 @@ $asset = new BasicAssetic();
         $asset->asset('js/vendor/hexList/hexList.js');
         $asset->asset('js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css');
         $asset->asset('js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js');
-        $asset->asset('js/main.js');
+        $asset->asset('js/main.js',[
+                'priority' => 999
+        ]);
         ?>
     </head>
     <body>

@@ -31,7 +31,19 @@ class BasicAssetic {
         $this->paths['tmp'] = Config::$mainPath.'/tmp/';
     }
 
-    public function asset($file, $internal = true, $returnPath = true, $addTags = true, $leaveNotice = true, $addVersion = false) {
+    public function asset($file, $config = []) {
+        $defaults = [
+            'internal' => true,
+            'returnPath' => true,
+            'addTags' => true,
+            'leaveNotice' => true,
+            'addVersion' => false,
+            'priority' => 1
+        ];
+
+        $config = array_merge($defaults, $config);
+        list($internal, $returnPath, $addTags, $leaveNotice, $addVersion) = $config;
+
         $fileType = strtolower(pathinfo($file, PATHINFO_EXTENSION));
         if (!in_array($fileType,$this->knownTypes)) {
             echo 'Unknown file type.';
