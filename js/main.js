@@ -178,7 +178,7 @@ var helpers = {
 };
 
 
-var portfolio = function() {
+var Portfolio = function() {
 	var pt = this;
 	pt.active = ''; // active page
 	pt.recent = ''; // recent page
@@ -558,7 +558,7 @@ var portfolio = function() {
 				'margin-top': headerHeight + 'px'
 			});
 		}
-	}
+	};
 
 	pt.background = { // background actions
 		getX : function() {
@@ -688,7 +688,7 @@ var portfolio = function() {
 				pt.closeAnimation[pt.recent](callback);
 			}
 		}
-	}
+	};
 
 	pt.renderTemplates = function() {
 		if (options.loaded.data.length !== 0) {
@@ -704,7 +704,7 @@ var portfolio = function() {
 				}
 			});
 		}
-	}
+	};
 
 	pt.scrollBar = {
 		set: function() {
@@ -714,7 +714,7 @@ var portfolio = function() {
 				
 			});
 		}
-	}
+	};
 
 	pt.binds = {
 		set: function() {
@@ -752,14 +752,14 @@ var portfolio = function() {
 PRELOADER
 ***************************************/
 
-function mainPreloader() {
+function MainPreloader() {
 	var pr = this;
 
 	pr.preloaderTemplate = 'content/preloader.html';
 	pr.preloaderImage = 'gfx/preloader_bg.jpg';
 	pr.animate = function(callback) {
 		$(options.selector.preloader.text.id).fadeIn(function() {
-			$(options.selector.preloader.parenthesis.left.id).css({
+			$(options.selector.preloader.parenthesis.right.id).css({
 				"display":"block",
 				"opacity": 0
 			}).animate({
@@ -767,7 +767,7 @@ function mainPreloader() {
 				"opacity" : 1
 			}, 200);
 
-			$(options.selector.preloader.parenthesis.right.id).css({
+			$(options.selector.preloader.parenthesis.left.id).css({
 				"display":"block",
 				"opacity": 0
 			}).animate({
@@ -777,9 +777,9 @@ function mainPreloader() {
 
 			setTimeout(function() {
 				var items = [
-					options.selector.preloader.sections.music.description,
-					options.selector.preloader.sections.image.description,
-					options.selector.preloader.sections.sections.description
+					options.selector.preloader.sections.music.description.id,
+					options.selector.preloader.sections.image.description.id,
+					options.selector.preloader.sections.sections.description.id
 				];
 
 				$.each(items,function(key, item) {
@@ -840,11 +840,11 @@ function mainPreloader() {
 				getTemplate('preloader', function(response) {
 					$(options.selector.body.id).html(response);
 					pr.animate(function() {
-						myPortfolio.load();
+						MyPortfolio.load();
 						pr.checkIfLoadedAll(function() {
 							setTimeout(function() {
 								pr.unload(function() {
-									myPortfolio.start();
+									MyPortfolio.start();
 								});
 							},500);
 						});
@@ -891,16 +891,16 @@ function mainPreloader() {
 			});
 		};
 
-		var switchLoader = function(stopArray, startArray) {
-			stop(stopArray.description);
-			$(stopArray.tickMark).show();
+		var switchLoader = function(switchFrom, switchTo) {
+			stop(switchFrom.description.id);
+			$(switchFrom.tickMark.id).show();
 
-			if (startArray instanceof Array) {
-				pulsate(startArray.description);
+			if (switchTo instanceof Object) {
+				pulsate(switchTo.description.id);
 			}
 		};
 
-		pulsate(music[0]);
+		pulsate(music.description.id);
 		pr.checkIfLoaded('music',function() {
 			switchLoader(music, image);
 			pr.checkIfLoaded('image',function() {
@@ -971,15 +971,15 @@ var getTemplate = function(name,callback) {
 
 };
 
-var preloader = new mainPreloader();
-var myPortfolio = new portfolio();
+var Preloader = new MainPreloader();
+var MyPortfolio = new Portfolio();
 
 $(function() {
 	$.views.helpers(helpers.converters);
-	preloader.load();
+	Preloader.load();
 	$(window).resize(function() {
-		myPortfolio.background.setPosition(false,false);
-		myPortfolio.content.setWrapperSize();
+		MyPortfolio.background.setPosition(false,false);
+		MyPortfolio.content.setWrapperSize();
 	});
 
 });
