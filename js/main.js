@@ -772,15 +772,17 @@ function mainPreloader() {
 			$(selector).effect('pulsate',{times: 15}, 10000, function() {
 				notLoaded($(this));
 			});
-		}
+		};
+
 		var notLoaded = function() {
-			console.log('not loaded'); // mark it red or something
-		}
+			console.error('not loaded'); // mark it red or something
+		};
+
 		var stop = function(selector) {
 			$(selector).stop(true,false).css({
 				opacity:'1'
 			});
-		}
+		};
 
 		pulsate(music[0]);
 		pr.checkIfLoaded('music',function() {
