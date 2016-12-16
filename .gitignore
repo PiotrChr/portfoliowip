@@ -6,3 +6,4 @@ tmp/*
 .vagrant/*
 tmp/
 server/settings.php
+js/vendor

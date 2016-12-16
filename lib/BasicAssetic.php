@@ -31,13 +31,31 @@ class BasicAssetic {
         $this->paths['tmp'] = Config::$mainPath.'/tmp/';
     }
 
-    public function asset($file, $internal = true, $returnPath = true, $addTags = true, $leaveNotice = true, $addVersion = false) {
+    public function asset($file, $config = []) {
+        $defaults = [
+            'internal' => true,
+            'returnPath' => true,
+            'addTags' => true,
+            'leaveNotice' => true,
+            'addVersion' => false
+        ];
+
+        $keysIntersect = array_intersect_key($config, $defaults);
+        $config = array_merge($defaults, $keysIntersect);
+        extract($config);
+
         $fileType = strtolower(pathinfo($file, PATHINFO_EXTENSION));
         if (!in_array($fileType,$this->knownTypes)) {
             echo 'Unknown file type.';
             return;
         }
 
+        /**
+         * @var $internal
+         * @var $returnPath
+         * @var $addTags
+         * @var $leaveNotice
+         */
         $exists = ($internal) ? file_exists($file) : $this->checkRemote($file);
         if ($exists) {
             if ($returnPath) {

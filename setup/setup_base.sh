@@ -52,6 +52,7 @@ sudo a2enmod rewrite
 sudo a2enmod php7.0
 sudo service apache2 restart
 sudo apt-get -y install zip unzip
+sudo apt-get -y install git
 
 #Apache virtual host
 msg "Configuring Apache"
