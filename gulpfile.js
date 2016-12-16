@@ -12,4 +12,4 @@ gulp.task('sass:watch', function () {
 });
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', ['sass']);
+gulp.task('default', ['css']);
