@@ -3,3 +3,6 @@
 
 tmp/*
 .idea
+.vagrant/*
+tmp/
+server/settings.php
