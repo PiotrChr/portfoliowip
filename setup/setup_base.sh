@@ -61,15 +61,8 @@ sudo cp -rf $syncFolder$sources"apache/envvars" /etc/apache2/envvars
 
 
 #Symfony Permissions
-msg "Fixing Symfony permissions"
+msg "Fixing Permissions"
 sudo chmod -R 777 $syncFolder
-# sudo chmod -R 775 $syncFolder"var/cache"
-# sudo chmod -R 775 $syncFolder"var/logs"
-# sudo chmod -R 775 $syncFolder"app/config/parameters.yml"
-
-# Symfony parameters.yml
-# msg "Creating parameters.yml file for Symfony 3"
-# sudo cp $syncFolder$sources"/symfony/parameters.yml" $syncFolder"app/config/parameters.yml"
 
 #Composer
 msg "Installing Composer"
@@ -87,41 +80,13 @@ if [ ! -d "$tmp" ]; then
 	mkdir $tmp
 fi
 
-# #Server Folder
-# if [ ! -d "$tmp" ]; then
-# 	mkdir $tmp
-# fi
-
-
 # NPM
-# sudo apt-get -y install nodejs
-# sudo ln -s `which nodejs` /usr/bin/node
+msg "Installing Node"
 
-#ElasticSearch
-# msg "Setting up Elasticsearch"
-# elastic=$tmp$elasticFilename
-# if [ ! -f "$elastic" ]; then
-# 	wget -Oq $elastic $elasticUrl
-# fi
-# sudo dpkg -i $elastic
-# sudo update-rc.d elasticsearch defaults
-
-# msg "Adding Vagrant to elasticsearch group"
-# sudo usermod -aG elasticsearch vagrant
-# sudo chgrp elasticsearch '/etc/elasticsearch/'
-# sudo chown -R vagrant:elasticsearch '/etc/elasticsearch/'
-
-# msg "Configuring Elasticsearch"
-# conf=$(cat <<EOF
-# node.name: "Learnhub"
-# cluster.name: "learnhub"
-# index.number_of_shards: 1
-# index.number_of_replicas: 0
-# network.bind.host: localhost
-# EOF
-# )
-
-# echo "$conf" > '/etc/elasticsearch/elasticsearch.yml'
-# sudo service elasticsearch restart
+nodePath='/usr/bin/node'
+sudo apt-get -y install nodejs
+if [ ! -d $nodePath ]; then
+    sudo ln -s `which nodejs` $nodePath
+fi
 
 msg "Finished!"

@@ -81,7 +81,8 @@ Vagrant.configure("2") do |config|
         chmod -R 600 /home/vagrant/.ssh/*
 EOD
 
-    config.vm.provision "shell", path: "setup/script.sh", privileged: false
+    config.vm.provision "shell", path: "setup/setup_base.sh", privileged: false
+    config.vm.provision "shell", path: "setup/setup_db.sh", privileged: false
     
     # if File.exist?('./Vagrantfile.local')
     #     external = File.read './Vagrantfile.local'
