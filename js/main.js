@@ -881,32 +881,31 @@ function MainPreloader() {
 			console.error('Took too long to load a resource ' + currentResource); // mark it red or something
 		};
 
-		var updateResource = function (resource) {
-			currentResource = resource;
-		};
-
 		var stop = function(selector) {
 			$(selector).stop(true,false).css({
 				opacity:'1'
 			});
 		};
 
-		var switchLoader = function(switchFrom, switchTo) {
-			stop(switchFrom.description.id);
-			$(switchFrom.tickMark.id).show();
+		var switchLoader = function(resourceName, switchFrom, switchTo) {
+			currentResource = resourceName;
+			if (false !== switchFrom) {
+				stop(switchFrom.description.id);
+				$(switchFrom.tickMark.id).show();
+			}
 
 			if (switchTo instanceof Object) {
 				pulsate(switchTo.description.id);
 			}
 		};
 
-		pulsate(music.description.id);
-		pr.checkIfLoaded('music',function() {
-			switchLoader(music, image);
-			pr.checkIfLoaded('image',function() {
-				switchLoader(image, sections);
-				pr.checkIfLoaded('sections',function() {
-					switchLoader(sections);
+		switchLoader('music', false, music.description.id);
+		pr.checkIfLoaded(currentResource, function() {
+			switchLoader('image', music, image);
+			pr.checkIfLoaded(currentResource, function() {
+				switchLoader('sections', image, sections);
+				pr.checkIfLoaded(currentResource, function() {
+					switchLoader('All', sections);
 					if (callback instanceof Function) {
 						callback();
 					}
@@ -914,7 +913,7 @@ function MainPreloader() {
 			});
 		});
 	}
-};
+}
 
 /**************************************
 Custom Functions
