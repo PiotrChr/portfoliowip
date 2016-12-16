@@ -32,11 +32,10 @@ $asset = new BasicAssetic();
         $asset->asset('js/vendor/jquery.foggy.min.js');
         $asset->asset('js/shootingStar.js');
         $asset->asset('js/twinkleStars.js');
-        $asset->asset('js/main.js');
-        $asset->asset('js/hexagon.js');
-        $asset->asset('js/hexagon.js');
+        $asset->asset('js/vendor/hexList/hexList.js');
         $asset->asset('js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css');
         $asset->asset('js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js');
+        $asset->asset('js/main.js');
         ?>
     </head>
     <body>
