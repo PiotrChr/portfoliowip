@@ -85,8 +85,8 @@ msg "Installing Node"
 
 nodePath='/usr/bin/node'
 sudo apt-get -y install nodejs
-if [ ! -d $nodePath ]; then
-    sudo ln -s `which nodejs` $nodePath
+if [ ! -d "$nodePath" ]; then
+    sudo ln -s `which nodejs` "$nodePath"
 fi
 
 msg "Finished!"

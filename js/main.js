@@ -9,25 +9,104 @@ var options = {
 		topBarHeight: 80
 	},
 	selector: {
-		bodyWrapper: '#bodyWrapper',
-		backgroundContainer: '#backgroundContainer',
-		body: '#bodyContainer',
-		preloader: '#mainPreloader',
-		loadingList: '#mainPreloader_rightContainer_loadList',
-		loadingText: '#mainPreloader_leftContainer_loadingText',
-		loadingMusic: ['#loadList_music span.loadList_description', '#loadList_music span.loadList_tick'],
-		loadingImage: ['#loadList_image span.loadList_description', '#loadList_image span.loadList_tick'],
-		loadingSections: ['#loadList_sections span.loadList_description', '#loadList_sections span.loadList_tick'],
-		loadingParenthesis: ['#mainPreloader_rightContainer_rightParenthesis','#mainPreloader_rightContainer_leftParenthesis'],
-		mainNav: ['#mainNav','#mainNav a'],
-		secondNav: ['#topMenu','#topMenu a'],
-		mainLogo: '#logo',
-		cp: ["#leftParallelogram","#rightParallelogram"],
-		topControls: ['#topControls','.topControl','.topControls_select','.topControls_select span','.topControl_status'],
-		topBar: ['#topBar'],
-		wrapperContainer: '#wrapperContainer',
-		header: '#header'
-},
+		bodyWrapper: {
+			id: '#bodyWrapper'
+		},
+		backgroundContainer: {
+			id: '#backgroundContainer'
+		},
+		body: {
+			id: '#bodyContainer'
+		},
+		preloader: {
+			id: '#mainPreloader',
+			sections: {
+				music: {
+					description: {
+						id: '#loadList_music span.loadList_description'
+					},
+					tickMark: {
+						id: '#loadList_music span.loadList_tick'
+					}
+				},
+				image: {
+					description: {
+						id: '#loadList_image span.loadList_description',
+					},
+					tickMark: {
+						id: '#loadList_image span.loadList_tick'
+					}
+				},
+				sections: {
+					description: {
+						id: '#loadList_sections span.loadList_description'
+					} ,
+					tickMark: {
+						id: '#loadList_sections span.loadList_tick'
+					}
+				}
+			},
+			list: {
+				id: '#mainPreloader_rightContainer_loadList'
+			},
+			text: {
+				id: '#mainPreloader_leftContainer_loadingText'
+			},
+			parenthesis: {
+				right: {
+					id: '#mainPreloader_rightContainer_rightParenthesis'
+				},
+				left: {
+					id: '#mainPreloader_rightContainer_leftParenthesis'
+				}
+			}
+		},
+		mainNav: {
+			id: '#mainNav',
+			a: {
+				element: '#mainNav a'
+			}
+		},
+		secondNav: {
+			id: '#topMenu',
+			a: {
+				element: '#topMenu a'
+			}
+		},
+		mainLogo: {
+			id: '#logo'
+		},
+		cp: {
+			left: {
+				id: '#leftParallelogram'
+			},
+			right: {
+				id: '#rightParallelogram'
+			}
+		},
+		topControls: {
+			id: '#topControls',
+			className: '.topControl',
+			select: {
+				className: '.topControls_select'
+			},
+			span: {
+				element: '.topControls_select span'
+			},
+			status: {
+				className: '.topControl_status'
+			}
+		},
+		topBar: {
+			id: '#topBar'
+		},
+		wrapperContainer: {
+			id: '#wrapperContainer'
+		} ,
+		header: {
+			id: '#header'
+		}
+	},
 
 	toLoad: { 	// Items to load via Ajax
 		images: [
@@ -145,12 +224,12 @@ var portfolio = function() {
 			language: {
 				current: options.settings.language,
 				setDefault: function() {
-					$(options.selector.body).find('.lang[lang=\'' + options.settings.language + '\']').show();
+					$(options.selector.body.id).find('.lang[lang=\'' + options.settings.language + '\']').show();
 				},
 				changeTo: function(language) {
 					if (language !== this.current) {
-						$(options.selector.body).find('.lang[lang=\'' + this.current + '\']').hide();
-						$(options.selector.body).find('.lang[lang=\'' + language + '\']').show();
+						$(options.selector.body.id).find('.lang[lang=\'' + this.current + '\']').hide();
+						$(options.selector.body.id).find('.lang[lang=\'' + language + '\']').show();
 						this.current = language;
 					}
 					
@@ -171,7 +250,7 @@ var portfolio = function() {
             var targetOptions = target.data('options').split(',');
             var current = target.data('current');
             var html = [];
-            var control = target.closest(options.selector.topControls[1]);
+            var control = target.closest(options.selector.topControls.className);
 
             if (control.data('switch') == 'toggle') {
                 var action = control.attr('id').split('_')[1];
@@ -203,7 +282,7 @@ var portfolio = function() {
                 });
 
                 html = html.join('');
-                var topControls = target.find(options.selector.topControls[2]);
+                var topControls = target.find(options.selector.topControls.select.className);
                 topControls.html(html);
                 topControls.stop().css({
                     'display': 'block',
@@ -216,7 +295,7 @@ var portfolio = function() {
 		},
 		toggle: function(event) {
 			var target = $(event.currentTarget);
-            var topControls = target.find(options.selector.topControls[2]);
+            var topControls = target.find(options.selector.topControls.select.className);
             var visible = topControls.css('display') !== 'none';
             if (visible && target.data('switch') !== 'toggle') {
                 pt.topControls.close(null,target);
@@ -227,7 +306,7 @@ var portfolio = function() {
 		},
 		close: function(event, optionalTarget) {
             var target = (optionalTarget !== 'undefined') ? optionalTarget : $(event.currentTarget);
-			var topControls = target.find(options.selector.topControls[2]);
+			var topControls = target.find(options.selector.topControls.select.className);
 			if (target.data('switch') == 'toggle') {
 
             } else {
@@ -245,8 +324,8 @@ var portfolio = function() {
 		change: function(event) {
 			var target = $(event.target);
 			var option = target.data('option') || target.closest('span[data-option]').data('option');
-			var control = target.closest(options.selector.topControls[1]);
-			var description = control.find(options.selector.topControls[4]);
+			var control = target.closest(options.selector.topControls.className);
+			var description = control.find(options.selector.topControls.status.className);
 			var action = control.attr('id').split('_')[1];
 
             console.log(option);
@@ -264,8 +343,8 @@ var portfolio = function() {
 			control.trigger('mouseleave');
 		},
 		set: function() {
-			$(options.selector.topControls[0]).on('click',options.selector.topControls[1], pt.topControls.toggle);
-			$(options.selector.topControls[0]).on('click',options.selector.topControls[3], pt.topControls.change);
+			$(options.selector.topControls.id).on('click',options.selector.topControls.className, pt.topControls.toggle);
+			$(options.selector.topControls.id).on('click',options.selector.topControls.span.element, pt.topControls.change);
 			$(window).resize(function() {
 				helpers.stretchAll();
 			});
@@ -275,19 +354,23 @@ var portfolio = function() {
 	pt.openAnimation = { // Page animations on open
 		home: function(callback) {
 			$('#_home').css({display:'table'});
-			drawPoly(options.selector.cp[0],pt.settings.polys.cp1,'#000',[300,80]);
-			drawPoly(options.selector.cp[1],pt.settings.polys.cp2,'#fff',[360,80]);
+
+			drawPoly(options.selector.cp.left.id, pt.settings.polys.cp1, '#000', [300,80]);
+			drawPoly(options.selector.cp.right.id, pt.settings.polys.cp2, '#fff', [360,80]);
+
 			setTimeout(function() {
-				$.each($(options.selector.mainNav[1]), function(k,v) {
+				var _navLink = $(options.selector.mainNav.a.element);
+
+				$.each(_navLink, function(k,v) {
 					setTimeout(function() {
 						$(v).effect('pulsate',200).animate({
 							opacity:1
 						},200);
 					},k*100);
 				});
-				$(options.selector.mainLogo).animate({
-				opacity:1
-			},2000);
+				$(options.selector.mainLogo.id).animate({
+					opacity:1
+				},2000);
 			},1000);
 
 		},
@@ -365,7 +448,7 @@ var portfolio = function() {
 	pt.closeAnimation = { // page animations on close
 		home : function(callback) {
 			$('#_home').fadeOut(function() {
-				$(options.selector.topBar[0]).css({
+				$(options.selector.topBar.id).css({
 					'display':'block',
 					'opacity': 0
 				}).animate({
@@ -435,15 +518,17 @@ var portfolio = function() {
 			});
 		}
 	};
+
 	pt.menu = {
 		set: function() {
-			var links = [options.selector.mainNav[1], options.selector.secondNav[1]].join(',');
+			var links = [options.selector.mainNav.a.element, options.selector.secondNav.a.element].join(',');
 			$(options.selector.body).on('click', links, function(event) {
 				var href = $(this).attr('href').split('#')[1];
-				pt.setPage(href,true,true);
+				pt.setPage(href, true, true);
 			});
 		}
-	}
+	};
+
 	pt.sound = {
 		sound : {},
 		start: function() {
@@ -464,8 +549,8 @@ var portfolio = function() {
 
 	pt.content = {
 		setWrapperSize: function() {
-			var wrapper = $(options.selector.wrapperContainer);
-			var headerHeight = $(options.selector.header).height();
+			var wrapper = $(options.selector.wrapperContainer.id);
+			var headerHeight = $(options.selector.header.id).height();
 			var windowHeight = $(window).height();
 			var wrapperHeight = parseInt(windowHeight) - parseInt(headerHeight);
 			wrapper.css({
@@ -490,7 +575,7 @@ var portfolio = function() {
 			var topOffset = pt.background.getY(page);
 			var backgroundPosition = -leftOffset + "px " + topOffset + "px";
 			if (animateBg === false) {
-				$(options.selector.backgroundContainer).css({
+				$(options.selector.backgroundContainer.id).css({
 					"background-position" : backgroundPosition
 				});
 				if (callback instanceof Function) {
@@ -498,7 +583,7 @@ var portfolio = function() {
 				}
 			} else if (animateBg === true) {
 				
-				$(options.selector.backgroundContainer).stop(true,false).animate({
+				$(options.selector.backgroundContainer.id).stop(true, false).animate({
 					backgroundPosition: backgroundPosition
 				}, {queue:false,duration:1000,easing:'smoothmove',complete: function() {
 					if (callback instanceof Function) {
@@ -508,7 +593,7 @@ var portfolio = function() {
 			}
 		},
 		setBackground : function(background) {
-			$(options.selector.backgroundContainer).css({
+			$(options.selector.backgroundContainer.id).css({
 				"background" : "url('" + background + "')",
 			}).fadeIn(2000,function() {
 				$('#preloaderBackgroundContainer').fadeOut();
@@ -520,9 +605,9 @@ var portfolio = function() {
 			var y = e.pageY;
 			var movementX = (x - $(window).width()/2)/strength * -1;
 			var movementY = (y - $(window).height()/2)/strength * -1;
-			var current = $(options.selector.backgroundContainer).css("background-position").split(" ");
+			var current = $(options.selector.backgroundContainer.id).css("background-position").split(" ");
 			var newBackgroundPosition = (-parseInt(pt.background.getX()) + parseInt(movementX)) + "px " + (parseInt(pt.background.getY(false)) + parseInt(movementY)) + "px";
-			$(options.selector.backgroundContainer).animate({
+			$(options.selector.backgroundContainer.id).animate({
 				backgroundPosition: newBackgroundPosition
 			}, {queue:false,duration:1000,easing:'smoothmove'});
 		}
@@ -535,11 +620,11 @@ var portfolio = function() {
 			}
 			pt.active = page;
 			pt.closeRecent(close, function() {
-				$(options.selector.wrapperContainer).off('mousemove',pt.background.moveBg);
+				$(options.selector.wrapperContainer.id).off('mousemove',pt.background.moveBg);
 				pt.background.setPosition(page, animateBg, function() {
 					helpers.stretchAll();
 					if (pt.openAnimation[page] instanceof Function) {
-						$(options.selector.wrapperContainer).on('mousemove',pt.background.moveBg);
+						$(options.selector.wrapperContainer.id).on('mousemove',pt.background.moveBg);
 						pt.openAnimation[page]();
 					}
 				});
@@ -623,7 +708,7 @@ var portfolio = function() {
 
 	pt.scrollBar = {
 		set: function() {
-			$(options.selector.wrapperContainer).mCustomScrollbar({
+			$(options.selector.wrapperContainer.id).mCustomScrollbar({
 				theme:'light-thin',
 				autoHideScrollbar: true,
 				
@@ -643,10 +728,10 @@ var portfolio = function() {
 				},200)
 			})
 		}
-	}
+	};
 
 	pt.start = function() { // start portfolio
-		$(options.selector.body).html(options.loaded.portfolio);
+		$(options.selector.body.id).html(options.loaded.portfolio);
 		pt.content.setWrapperSize();
 		pt.renderTemplates();
 		pt.topControls.actions.language.setDefault();
@@ -673,42 +758,57 @@ function mainPreloader() {
 	pr.preloaderTemplate = 'content/preloader.html';
 	pr.preloaderImage = 'gfx/preloader_bg.jpg';
 	pr.animate = function(callback) {
-		$(options.selector.loadingText).fadeIn(function() {
-			$(options.selector.loadingParenthesis[0]).css({"display":"block","opacity": 0}).animate({
+		$(options.selector.preloader.text.id).fadeIn(function() {
+			$(options.selector.preloader.parenthesis.left.id).css({
+				"display":"block",
+				"opacity": 0
+			}).animate({
 				"right" : "0px",
 				"opacity" : 1
-			},200);
-			$(options.selector.loadingParenthesis[1]).css({"display":"block","opacity": 0}).animate({
+			}, 200);
+
+			$(options.selector.preloader.parenthesis.right.id).css({
+				"display":"block",
+				"opacity": 0
+			}).animate({
 				"left" : "0px",
 				"opacity" : 1
-			},200);
+			}, 200);
+
 			setTimeout(function() {
-				var items = [$(options.selector.loadingMusic[0]),$(options.selector.loadingImage[0]),$(options.selector.loadingSections[0])];
-				$.each(items,function(item, key) {
+				var items = [
+					options.selector.preloader.sections.music.description,
+					options.selector.preloader.sections.image.description,
+					options.selector.preloader.sections.sections.description
+				];
+
+				$.each(items,function(key, item) {
 					setTimeout(function() {
-						key.toggle('pulsate');
-					},item*200);
+						$(item).toggle('pulsate');
+					}, key * 200);
 				});
+
 				if (callback instanceof Function) {
 					setTimeout(function() {
 						callback();
-					},500);
+					}, 500);
 				}
-			},500);
+
+			}, 500);
 		});
 
 	};
 	pr.unload = function(callback) {
-		$(options.selector.loadingList).fadeOut(500,function() {
-			$(options.selector.loadingParenthesis[0]).animate({
+		$(options.selector.preloader.list.id).fadeOut(500, function() {
+			$(options.selector.preloader.parenthesis.left.id).animate({
 				"right" : "121px",
 				"opacity" : 0
 			},100);
-			$(options.selector.loadingParenthesis[1]).animate({
+			$(options.selector.preloader.parenthesis.right.id).animate({
 				"left" : "121px",
 				"opacity" : 0
 			},100);
-			$(options.selector.preloader).fadeOut(200,function() {
+			$(options.selector.preloader.id).fadeOut(200, function() {
 				if (callback instanceof Function) {
 					callback();
 				}
@@ -728,15 +828,17 @@ function mainPreloader() {
 				opacity: 0.9,           // Falls back to a filter for IE.
 				cssFilterSupport: true  // Use "-webkit-filter" where available.
 			});
-			$(options.selector.bodyWrapper).fadeIn(function() {
+
+			$(options.selector.bodyWrapper.id).fadeIn(function() {
 				$(this).twinkleStars({
 					timespan: 1,
 					blinkSpeed: 0.5,
 					density: 10,
 					moveFactor: 15
 				});
-				getTemplate('preloader',function(response) {
-					$(options.selector.body).html(response);
+
+				getTemplate('preloader', function(response) {
+					$(options.selector.body.id).html(response);
 					pr.animate(function() {
 						myPortfolio.load();
 						pr.checkIfLoadedAll(function() {
@@ -764,18 +866,23 @@ function mainPreloader() {
 
 	};
 	pr.checkIfLoadedAll = function(callback) {
-		var music = options.selector.loadingMusic;
-		var image = options.selector.loadingImage;
-		var sections = options.selector.loadingSections;
+		var music = options.selector.preloader.sections.music;
+		var image = options.selector.preloader.sections.image;
+		var sections = options.selector.preloader.sections.sections;
+		var currentResource;
 
 		var pulsate = function(selector) {
 			$(selector).effect('pulsate',{times: 15}, 10000, function() {
-				notLoaded($(this));
+				notLoadedError();
 			});
 		};
 
-		var notLoaded = function() {
-			console.error('not loaded'); // mark it red or something
+		var notLoadedError = function() {
+			console.error('Took too long to load a resource ' + currentResource); // mark it red or something
+		};
+
+		var updateResource = function (resource) {
+			currentResource = resource;
 		};
 
 		var stop = function(selector) {
@@ -784,18 +891,22 @@ function mainPreloader() {
 			});
 		};
 
+		var switchLoader = function(stopArray, startArray) {
+			stop(stopArray.description);
+			$(stopArray.tickMark).show();
+
+			if (startArray instanceof Array) {
+				pulsate(startArray.description);
+			}
+		};
+
 		pulsate(music[0]);
 		pr.checkIfLoaded('music',function() {
-			stop(music[0]);
-			$(music[1]).css({"display":"inline-block"});
-			pulsate(image[0]);
+			switchLoader(music, image);
 			pr.checkIfLoaded('image',function() {
-				stop(image[0]);
-				$(image[1]).css({"display":"inline-block"});
-				pulsate(sections[0]);
+				switchLoader(image, sections);
 				pr.checkIfLoaded('sections',function() {
-					stop(sections[0]);
-					$(sections[1]).css({"display":"inline-block"});
+					switchLoader(sections);
 					if (callback instanceof Function) {
 						callback();
 					}
