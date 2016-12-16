@@ -343,8 +343,9 @@ var Portfolio = function() {
 			control.trigger('mouseleave');
 		},
 		set: function() {
-			$(options.selector.topControls.id).on('click',options.selector.topControls.className, pt.topControls.toggle);
-			$(options.selector.topControls.id).on('click',options.selector.topControls.span.element, pt.topControls.change);
+			console.log($(options.selector.topControls.span.element));
+			$(options.selector.topControls.id).on('click', options.selector.topControls.className, pt.topControls.toggle);
+			$(options.selector.topControls.id).on('click', options.selector.topControls.span.element, pt.topControls.change);
 			$(window).resize(function() {
 				helpers.stretchAll();
 			});
@@ -355,8 +356,8 @@ var Portfolio = function() {
 		home: function(callback) {
 			$('#_home').css({display:'table'});
 
-			drawPoly(options.selector.cp.left.id, pt.settings.polys.cp1, '#000', [300,80]);
-			drawPoly(options.selector.cp.right.id, pt.settings.polys.cp2, '#fff', [360,80]);
+			drawPoly(options.selector.cp.left.id, pt.settings.polys.cp1, '#000', [300, 80]);
+			drawPoly(options.selector.cp.right.id, pt.settings.polys.cp2, '#fff', [360, 80]);
 
 			setTimeout(function() {
 				var _navLink = $(options.selector.mainNav.a.element);
@@ -522,7 +523,7 @@ var Portfolio = function() {
 	pt.menu = {
 		set: function() {
 			var links = [options.selector.mainNav.a.element, options.selector.secondNav.a.element].join(',');
-			$(options.selector.body).on('click', links, function(event) {
+			$(options.selector.body.id).on('click', links, function(event) {
 				var href = $(this).attr('href').split('#')[1];
 				pt.setPage(href, true, true);
 			});
