@@ -899,7 +899,7 @@ function MainPreloader() {
 			}
 		};
 
-		switchLoader('music', false, music.description.id);
+		switchLoader('music', false, music);
 		pr.checkIfLoaded(currentResource, function() {
 			switchLoader('image', music, image);
 			pr.checkIfLoaded(currentResource, function() {
