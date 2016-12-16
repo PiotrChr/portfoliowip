@@ -37,9 +37,7 @@ $asset = new BasicAssetic();
         $asset->asset('js/vendor/hexList/hexList.js');
         $asset->asset('js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css');
         $asset->asset('js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js');
-        $asset->asset('js/main.js',[
-                'priority' => 999
-        ]);
+        $asset->asset('js/main.js');
         ?>
     </head>
     <body>

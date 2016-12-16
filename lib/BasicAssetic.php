@@ -37,12 +37,12 @@ class BasicAssetic {
             'returnPath' => true,
             'addTags' => true,
             'leaveNotice' => true,
-            'addVersion' => false,
-            'priority' => 1
+            'addVersion' => false
         ];
 
-        $config = array_merge($defaults, $config);
-        list($internal, $returnPath, $addTags, $leaveNotice, $addVersion) = $config;
+        $keysIntersect = array_intersect_key($config, $defaults);
+        $config = array_merge($defaults, $keysIntersect);
+        extract($config);
 
         $fileType = strtolower(pathinfo($file, PATHINFO_EXTENSION));
         if (!in_array($fileType,$this->knownTypes)) {
@@ -50,6 +50,12 @@ class BasicAssetic {
             return;
         }
 
+        /**
+         * @var $internal
+         * @var $returnPath
+         * @var $addTags
+         * @var $leaveNotice
+         */
         $exists = ($internal) ? file_exists($file) : $this->checkRemote($file);
         if ($exists) {
             if ($returnPath) {
