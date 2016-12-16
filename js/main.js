@@ -878,7 +878,7 @@ function MainPreloader() {
 		};
 
 		var notLoadedError = function() {
-			console.error('Took too long to load a resource ' + currentResource); // mark it red or something
+			console.error('Took too long to load a resource: %c' + currentResource, 'color: red; font-weight: 600'); // mark it red or something
 		};
 
 		var stop = function(selector) {
