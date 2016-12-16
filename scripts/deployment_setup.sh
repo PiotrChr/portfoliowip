@@ -15,3 +15,6 @@ if [ ! -d "$hexListDir" ]; then
 else
     warn "hexList directory already exists"
 fi
+
+. $syncFolder"/scripts/deployment_apt.sh"
+. $syncFolder"/scripts/deployment_npm_global.sh"

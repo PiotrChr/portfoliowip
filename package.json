@@ -1,0 +1,17 @@
+{
+  "name": "portfolio-piotr-chrusciel",
+  "version": "1.0.0",
+  "description": "Portfolio",
+  "author": "Piotr Chrusciel",
+  "scripts": {
+    "setup": "echo test"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.3.0",
+    "gulp-sass": "^3.0.0"
+  },
+  "devDependencies": {
+    "gulp-clean-css": "^2.3.0"
+  }
+}

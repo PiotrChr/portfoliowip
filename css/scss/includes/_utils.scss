@@ -1,0 +1,22 @@
+$utility: 'u';
+
+$utility-warn-color: '#ff0000';
+
+.#{$utility} {
+    &-warn {
+        &-color {
+            color: $utility-warn-color;
+        }
+    }
+
+    &animate {
+        &-color {
+            -webkit-transition: color .5ms;
+            -moz-transition: color .5ms;
+            -ms-transition: color .5ms;
+            -o-transition: color .5ms;
+            transition: color .5ms;
+        }
+    }
+}
+

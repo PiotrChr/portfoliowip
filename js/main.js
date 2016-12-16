@@ -328,8 +328,6 @@ var Portfolio = function() {
 			var description = control.find(options.selector.topControls.status.className);
 			var action = control.attr('id').split('_')[1];
 
-            console.log(option);
-
 			if (pt.topControls.actions[action][option] instanceof Function) {
                 pt.topControls.actions[action][option]();
 			}
@@ -343,7 +341,6 @@ var Portfolio = function() {
 			control.trigger('mouseleave');
 		},
 		set: function() {
-			console.log($(options.selector.topControls.span.element));
 			$(options.selector.topControls.id).on('click', options.selector.topControls.className, pt.topControls.toggle);
 			$(options.selector.topControls.id).on('click', options.selector.topControls.span.element, pt.topControls.change);
 			$(window).resize(function() {
@@ -875,6 +872,7 @@ function MainPreloader() {
 		var pulsate = function(selector) {
 			$(selector).effect('pulsate',{times: 15}, 10000, function() {
 				notLoadedError();
+				$(this).addClass('u-warn-color');
 			});
 		};
 
