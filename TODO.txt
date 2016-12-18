@@ -1,0 +1,2 @@
+- If anchor present in the url, navigate after page loads.
+- blur pulsate effect

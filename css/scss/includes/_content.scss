@@ -1,0 +1,131 @@
+$page: 'page';
+
+.#{$page} {
+  display:none;
+  vertical-align: middle;
+  color: rgba(white, 1);
+  min-height: 300px;
+
+  .lang {
+    display: none;
+  }
+}
+
+$home-page: 'home';
+$blog-page: 'blog';
+$bio-page: 'bio';
+$work-page: 'work';
+$contact-page: 'contact';
+$scripts-page: 'scripts';
+
+/**********************************
+Home
+**********************************/
+#_#{$home-page} {
+  vertical-align: middle;
+  text-align: center;
+  width: 100%;
+}
+
+/**********************************
+Bio
+**********************************/
+#_#{$bio-page} {
+  @at-root .#{$bio-page} {
+    &-left {
+      width: 20%;
+    }
+
+    &-right {
+      padding-right: 15%;
+    }
+  }
+}
+
+/**********************************
+Blog
+**********************************/
+#_#{$blog-page} {
+  padding-top: 50px;
+  padding-bottom: 50px;
+
+  @at-root .#{$blog-page} {
+    &-left {
+      width: 20%;
+
+      &__controls {
+        font-family: $body-font-family;
+        font-size: $body-font-size-base;
+        text-align: right;
+
+        .icon {
+          margin-left: 20px;
+          margin-right: 30px;
+          font-size: 20px;
+          width: 20px;
+          position: relative;
+          top: 3px;
+        }
+      }
+
+      .description {
+        display:none;
+        text-transform:uppercase;
+
+        @include media(lg) {
+          display: block;
+        }
+      }
+    }
+
+    &-right {
+      width: 20%;
+      padding-right: 15%;
+
+      &__title h1 {
+        font-family: $body-font-family-theme;
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 30px;
+      }
+    }
+  }
+}
+
+/**********************************
+Work
+**********************************/
+#_#{$work-page} {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+/**********************************
+Contact
+**********************************/
+#_#{$contact-page} {
+  @at-root .#{$contact-page} {
+    &-links {
+      position: absolute;
+      font-size: 60px;
+      left: 50%;
+      top: 50%;
+    }
+
+    &-link {
+      float: left;
+      cursor: pointer;
+
+      &:hover {
+        color: #ba0000;
+      }
+    }
+  }
+}
+
+/**********************************
+Scripts
+**********************************/
+#_#{$scripts-page} {
+
+}

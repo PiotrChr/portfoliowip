@@ -1,4 +1,13 @@
 #!/bin/bash
+
+isLocal=true
+if [ "$1" == "local" ]; then
+    syncFolder="/srv/www/"
+else
+    syncFolder="/var/www/html/portfolio/"
+fi
+
+
 syncFolder="/srv/www/"
 . $syncFolder'/setup/config.sh'
 

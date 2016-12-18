@@ -1,21 +1,62 @@
-$utility: 'u';
+$utility-warn-color: #ff0000;
 
-$utility-warn-color: '#ff0000';
+$utility: 'u';
 
 .#{$utility} {
     &-warn {
         &-color {
-            color: $utility-warn-color;
+            color: $utility-warn-color !important;
         }
     }
 
     &animate {
         &-color {
-            -webkit-transition: color .5ms;
-            -moz-transition: color .5ms;
-            -ms-transition: color .5ms;
-            -o-transition: color .5ms;
-            transition: color .5ms;
+            @include transition(color, .2s);
+        }
+    }
+
+    &-hidden {
+        display: none !important;
+    }
+
+    &-visuallyHidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+
+        &.#{$utility}-focusable {
+            &:active,
+            &:focus {
+                clip: auto;
+                height: auto;
+                margin: 0;
+                overflow: visible;
+                position: static;
+                width: auto;
+            }
+        }
+    }
+
+    &-invisible {
+        visibility: hidden;
+    }
+
+    &-clearfix {
+        &:after {
+            content: " ";
+            display: table;
+            clear: both;
+        }
+
+        &:before {
+            content: " ";
+            display: table;
+            clear: both;
         }
     }
 }

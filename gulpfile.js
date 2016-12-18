@@ -5,7 +5,7 @@ var cleanCss = require('gulp-clean-css');
 gulp.task('css', function() {
 	return gulp.src('./css/scss/*.scss')
 			.pipe(sass().on('error', sass.logError))
-			.pipe(cleanCss({compatibility: 'ie9'}))
+			// .pipe(cleanCss({compatibility: 'ie9'}))
 			.pipe(gulp.dest('./css/web'))
 });
 

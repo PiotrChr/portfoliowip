@@ -1,0 +1,32 @@
+@mixin transition($property, $duration) {
+  -webkit-transform: $property $duration;
+  -moz-transform: $property $duration;
+  -ms-transform: $property $duration;
+  -o-transform: $property $duration;
+  transform: $property $duration;
+}
+
+$break-small: $breakpoint-small;
+$break-large: $breakpoint-large;
+
+@mixin media($media) {
+  @if $media == sm {
+    @media only screen and (max-width: $break-small) { @content; }
+  }
+  @else if $media == md {
+    @media only screen and (min-width: $break-small + 1) and (max-width: $break-large - 1) { @content; }
+  }
+  @else if $media == lg {
+    @media only screen and (min-width: $break-large) { @content; }
+  }
+  @else if $media == v {
+    @media (orientation: portrait) { @content; }
+  }
+  @else if $media == h {
+    @media (orientation: landscape) { @content; }
+  }
+  @else if $media == print {
+    @media print { @content }
+  }
+}
+
