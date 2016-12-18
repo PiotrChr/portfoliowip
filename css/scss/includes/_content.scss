@@ -98,6 +98,33 @@ Work
 #_#{$work-page} {
   margin-top: 20px;
   margin-left: 20px;
+
+  @at-root .#{$work-page} {
+    &__row {
+      clear:both;
+      position:relative;
+      width:100%;
+      font-family: $body-font-family-theme2;
+
+      &-left {
+        float:left;
+        position:relative;
+        width:200px;
+        height:200px;
+
+        img {
+          max-height: 100%;
+          clip: rect(0px, 60px, 200px, 0px);
+        }
+      }
+
+      &-right {
+        float:left;
+        position:relative;
+        width:66%;
+      }
+    }
+  }
 }
 
 /**********************************
@@ -110,6 +137,17 @@ Contact
       font-size: 60px;
       left: 50%;
       top: 50%;
+      width:52px;
+      height:250px;
+      margin-top: -125px;
+      margin-left: -26px;
+
+      @include media(lg) {
+        width:240px;
+        height:84px;
+        margin-top: -42px;
+        margin-left: -120px;
+      }
     }
 
     &-link {
@@ -118,6 +156,18 @@ Contact
 
       &:hover {
         color: #ba0000;
+      }
+
+      @include media(lg) {
+        &:nth-child(1) {
+          float: left;
+        }
+        &:nth-child(2) {
+          margin-left: 42px;
+        }
+        &:nth-child(1) {
+          float: right;
+        }
       }
     }
   }

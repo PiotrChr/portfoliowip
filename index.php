@@ -18,6 +18,7 @@ $asset = new BasicAssetic();
         <?php
         $asset->asset('css/font-awesome.min.css');
         $asset->asset('css/normalize.css');
+        $asset->asset('js/vendor/hexList/hexList.css');
         $asset->asset('css/main.css');
         $asset->asset('js/vendor/modernizr-2.8.3.min.js');
         $asset->asset('http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js',[

@@ -23,3 +23,7 @@ NORMAL=$(tput sgr0)
 function msg {
     echo -e $GREEN"|-- "$1$NC
 }
+
+function warn {
+    echo -e $RED"|-- "$1$NC
+}

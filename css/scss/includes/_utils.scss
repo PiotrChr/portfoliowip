@@ -9,7 +9,7 @@ $utility: 'u';
         }
     }
 
-    &animate {
+    &-animate {
         &-color {
             @include transition(color, .2s);
         }

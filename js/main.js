@@ -19,45 +19,45 @@ var options = {
 			id: '#bodyContainer'
 		},
 		preloader: {
-			id: '#mainPreloader',
+			id: '#preloader',
 			sections: {
 				music: {
 					description: {
-						id: '#loadList_music span.loadList_description'
+						id: '#loadList_music .preloader-container__loadList-description'
 					},
 					tickMark: {
-						id: '#loadList_music span.loadList_tick'
+						id: '#loadList_music .preloader-container__loadList-tick'
 					}
 				},
 				image: {
 					description: {
-						id: '#loadList_image span.loadList_description',
+						id: '#loadList_image .preloader-container__loadList-description'
 					},
 					tickMark: {
-						id: '#loadList_image span.loadList_tick'
+						id: '#loadList_image .preloader-container__loadList-tick'
 					}
 				},
 				sections: {
 					description: {
-						id: '#loadList_sections span.loadList_description'
+						id: '#loadList_sections .preloader-container__loadList-description'
 					} ,
 					tickMark: {
-						id: '#loadList_sections span.loadList_tick'
+						id: '#loadList_sections .preloader-container__loadList-tick'
 					}
 				}
 			},
 			list: {
-				id: '#mainPreloader_rightContainer_loadList'
+				id: '#preloader__loadList'
 			},
 			text: {
-				id: '#mainPreloader_leftContainer_loadingText'
+				id: '#preloader_loadingText'
 			},
 			parenthesis: {
 				right: {
-					id: '#mainPreloader_rightContainer_rightParenthesis'
+					id: '.preloader-container__parenthesis.-right'
 				},
 				left: {
-					id: '#mainPreloader_rightContainer_leftParenthesis'
+					id: '.preloader-container__parenthesis.-left'
 				}
 			}
 		},
@@ -158,6 +158,71 @@ var options = {
 PORTFOLIO
 ***************************************/
 var helpers = {
+    checkSelectors: function (selectorsObject, keyCheckArray, found, notFound) {
+        keyCheckArray = keyCheckArray || ['id','className','element'];
+		found = found || [];
+		notFound = notFound || [];
+
+		/* TODO: FINISH this shit */
+		var tested = new function() {
+			this.found = [];
+            this.notFound = [];
+			this.addNotFound = function(val) {
+				if (this.notFound.indexOf(val) === -1
+					&& this.found.indexOf(val) === -1) this.notFound.push(val);
+			};
+			this.addFound = function(val) {
+				if (this.found.indexOf(val) === -1) this.found.push(val);
+                if (this.notFound.indexOf(val) !== -1) this.found.push(val);
+			};
+			this.setFound = function(array) {
+				this.found = array;
+			};
+			this.setNotFound = function(array) {
+				this.notFound = array;
+			}
+		};
+
+        if (typeof window._selectorCheckup === 'undefined') {
+            window._selectorCheckup = {
+                found: [],
+                notFound: []
+            };
+        }
+
+		tested.setFound(window._selectorCheckup.found);
+        tested.setNotFound(window._selectorCheckup.notFound);
+
+        for (var property in selectorsObject) {
+            if (! (selectorsObject.hasOwnProperty(property))) continue;
+
+            if (typeof selectorsObject[property] === 'string' && keyCheckArray.indexOf(property) !== -1) {
+                if ($(selectorsObject[property]).length === 0) {
+                    tested.addNotFound(selectorsObject[property]);
+				} else {
+                    tested.addFound(selectorsObject[property]);
+				}
+            } else {
+                helpers.checkSelectors(selectorsObject[property], keyCheckArray, tested.found, tested.notFound);
+            }
+        }
+
+        window._selectorCheckup.found = tested.found;
+        window._selectorCheckup.notFound = tested.notFound;
+	},
+
+   	arrayUnique: function(array) {
+		var a = array.concat();
+		for(var i=0; i<a.length; ++i) {
+			for(var j=i+1; j<a.length; ++j) {
+				if(a[i] === a[j])
+					a.splice(j--, 1);
+			}
+		}
+
+		return a;
+	},
+
 	stretchAll: function() {
 		var viewportHeight = $(window).innerHeight();
 		var newHeight = viewportHeight - options.settings.topBarHeight;
@@ -973,11 +1038,24 @@ var Preloader = new MainPreloader();
 var MyPortfolio = new Portfolio();
 
 $(function() {
-	$.views.helpers(helpers.converters);
+    $.views.helpers(helpers.converters);
+
+	(function() {
+        var counter = 0;
+        var checkupInterval = setInterval(function() {
+            helpers.checkSelectors(options.selector);
+            counter++;
+
+            if (counter >= 10) clearInterval(checkupInterval);
+        }, 500);
+	})();
+
+
 	Preloader.load();
-	$(window).resize(function() {
+    $(window).resize(function() {
 		MyPortfolio.background.setPosition(false,false);
 		MyPortfolio.content.setWrapperSize();
 	});
 
 });
+

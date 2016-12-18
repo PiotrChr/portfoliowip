@@ -1,9 +1,8 @@
 @mixin transition($property, $duration) {
-  -webkit-transform: $property $duration;
-  -moz-transform: $property $duration;
-  -ms-transform: $property $duration;
-  -o-transform: $property $duration;
-  transform: $property $duration;
+  -webkit-transition: $property $duration;
+  -moz-transition: $property $duration;
+  -o-transition: $property $duration;
+  transition: $property $duration;
 }
 
 $break-small: $breakpoint-small;
