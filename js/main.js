@@ -862,6 +862,8 @@ function MainPreloader() {
 
 	};
 	pr.unload = function(callback) {
+
+		/* TODO: Toggle classes instead inlining css */
 		$(options.selector.preloader.list.id).fadeOut(500, function() {
 			$(options.selector.preloader.parenthesis.left.id).animate({
 				"right" : "121px",

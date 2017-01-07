@@ -66,3 +66,12 @@ $backgroundContainer: "bodyContainer";
   width: 100%;
   height: 100%;
 }
+
+$backgroundContainer: "wrapperContainer";
+##{$backgroundContainer} {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  overflow-y:auto;
+  display:block;
+}

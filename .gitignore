@@ -3,9 +3,9 @@
 
 tmp/*
 .idea
-.vagrant/*
 tmp/
 server/settings.php
 js/vendor/*
 node_modules/*
-css/web/*
+.vagrant/
+css/web/
