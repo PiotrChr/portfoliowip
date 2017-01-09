@@ -158,57 +158,51 @@ var options = {
 PORTFOLIO
 ***************************************/
 var helpers = {
-    checkSelectors: function (selectorsObject, keyCheckArray, found, notFound) {
-        keyCheckArray = keyCheckArray || ['id','className','element'];
-		found = found || [];
-		notFound = notFound || [];
+    checkSelectors: function (selectorObject, keywords, duration) {
+        if (typeof selectorObject == 'undefined') return null;
+    	keywords = keywords || ['id','className','element'];
 
-		/* TODO: FINISH this shit */
-		var tested = new function() {
-			this.found = [];
-            this.notFound = [];
-			this.addNotFound = function(val) {
-				if (this.notFound.indexOf(val) === -1
-					&& this.found.indexOf(val) === -1) this.notFound.push(val);
-			};
-			this.addFound = function(val) {
-				if (this.found.indexOf(val) === -1) this.found.push(val);
-                if (this.notFound.indexOf(val) !== -1) this.found.push(val);
-			};
-			this.setFound = function(array) {
-				this.found = array;
-			};
-			this.setNotFound = function(array) {
-				this.notFound = array;
-			}
+    	var counter = 0;
+
+    	/* TODO: return nothing :( */
+    	var getList = function(obj) {
+			list = [];
+
+			for (var property in obj) {
+                if (!obj.hasOwnProperty(property)) continue;
+
+                if (typeof obj[property] == "object") {
+                	list = list.concat(getList(obj[property]));
+				} else {
+                    if (keywords.indexOf(property) !== -1) list.push(obj[property]);
+				}
+            }
+
+			return list;
 		};
 
-        if (typeof window._selectorCheckup === 'undefined') {
-            window._selectorCheckup = {
-                found: [],
-                notFound: []
-            };
-        }
+		var check = function(selectorArray, duration) {
+			var counter = 0;
 
-		tested.setFound(window._selectorCheckup.found);
-        tested.setNotFound(window._selectorCheckup.notFound);
-
-        for (var property in selectorsObject) {
-            if (! (selectorsObject.hasOwnProperty(property))) continue;
-
-            if (typeof selectorsObject[property] === 'string' && keyCheckArray.indexOf(property) !== -1) {
-                if ($(selectorsObject[property]).length === 0) {
-                    tested.addNotFound(selectorsObject[property]);
-				} else {
-                    tested.addFound(selectorsObject[property]);
+			var checkInterval = setInterval(function() {
+				var i = selectorArray.length;
+				while (i--) {
+					if ($(selectorArray[i]).length > 0) {
+						selectorArray.splice(i,1);
+					}
 				}
-            } else {
-                helpers.checkSelectors(selectorsObject[property], keyCheckArray, tested.found, tested.notFound);
-            }
-        }
 
-        window._selectorCheckup.found = tested.found;
-        window._selectorCheckup.notFound = tested.notFound;
+				counter++;
+				if (counter === duration || selectorArray.length === 0) {
+                    clearInterval(checkInterval);
+					console.log(selectorArray);
+				}
+			}, 1000);
+		};
+
+		var list = getList(selectorObject);
+		console.log(list);
+		check(list, duration);
 	},
 
    	arrayUnique: function(array) {
@@ -822,7 +816,7 @@ function MainPreloader() {
 	pr.preloaderImage = 'gfx/preloader_bg.jpg';
 	pr.animate = function(callback) {
 		$(options.selector.preloader.text.id).fadeIn(function() {
-			$(options.selector.preloader.parenthesis.right.id).css({
+			$(options.selector.preloader.parenthesis.left.id).css({
 				"display":"block",
 				"opacity": 0
 			}).animate({
@@ -830,7 +824,7 @@ function MainPreloader() {
 				"opacity" : 1
 			}, 200);
 
-			$(options.selector.preloader.parenthesis.left.id).css({
+			$(options.selector.preloader.parenthesis.right.id).css({
 				"display":"block",
 				"opacity": 0
 			}).animate({
@@ -1042,16 +1036,7 @@ var MyPortfolio = new Portfolio();
 $(function() {
     $.views.helpers(helpers.converters);
 
-	(function() {
-        var counter = 0;
-        var checkupInterval = setInterval(function() {
-            helpers.checkSelectors(options.selector);
-            counter++;
-
-            if (counter >= 10) clearInterval(checkupInterval);
-        }, 500);
-	})();
-
+    helpers.checkSelectors(options.selector,'undefined',10);
 
 	Preloader.load();
     $(window).resize(function() {
@@ -1060,4 +1045,5 @@ $(function() {
 	});
 
 });
+
 

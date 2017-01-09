@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
     end
 
     # Hostname.
-    config.vm.hostname = "portfolio"
+    config.vm.hostname = "dev.portfolio"
 
     # Network
     config.vm.network "private_network", ip: "10.1.1.34"
