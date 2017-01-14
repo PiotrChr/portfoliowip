@@ -59,11 +59,11 @@ $preloader-container: "preloader-container";
       width: 32px;
 
       &.-left {
-        left: 121px;
+        right: 121px;
       }
 
       &.-right {
-        right: 121px;
+        left: 121px;
       }
 
       span {

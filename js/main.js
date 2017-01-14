@@ -831,7 +831,6 @@ function MainPreloader() {
 				"right" : "0px",
 				"opacity" : 1
 			}, 200);
-
 			$(options.selector.preloader.parenthesis.right.id).css({
 				"display":"block",
 				"opacity": 0

@@ -1,6 +1,5 @@
 - Blur pulsate effect
 - Add js to gulp
-- Load parenthesis wrong side
 - Fix twinkling stars to paint on canvas (or restrict somehow creation of new dom elemenets)
 - Stars don't appear with fade, and they should
 - Each time images for translations are loaded???
