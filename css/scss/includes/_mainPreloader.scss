@@ -84,6 +84,10 @@ $preloader-container: "preloader-container";
         margin: 0;
         padding: 0;
 
+        & li {
+          position: relative;
+        }
+
         li p {
           margin: 0;
         }
@@ -97,6 +101,7 @@ $preloader-container: "preloader-container";
       &-tick {
         position: absolute;
         right: -35px;
+        top: 0;
         display:none;
       }
     }

@@ -19,7 +19,7 @@ $.fn.twinkleStars = function(options) {
     }
 
     return this;
-}
+};
 
 function twinkleStarsClass(options) {
 	this.twinkles = [];

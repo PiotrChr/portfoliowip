@@ -9,3 +9,4 @@ js/vendor/*
 node_modules/*
 .vagrant/
 css/web/
+js/bin/*
