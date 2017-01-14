@@ -92,11 +92,7 @@ var options = {
 			},
 			span: {
 				element: '.topControls_select span'
-			},
-			status: {
-				className: '.topControl_status'
-			}
-		},
+			}},
 		topBar: {
 			id: '#topBar'
 		},
@@ -380,19 +376,12 @@ var Portfolio = function() {
 			var target = $(event.target);
 			var option = target.data('option') || target.closest('span[data-option]').data('option');
 			var control = target.closest(options.selector.topControls.className);
-			var description = control.find(options.selector.topControls.status.className);
 			var action = control.attr('id').split('_')[1];
 
 			if (pt.topControls.actions[action][option] instanceof Function) {
                 pt.topControls.actions[action][option]();
 			}
 			control.data('current',option);
-
-			if (typeof target.data('class') !== 'undefined') {
-				description.removeClass(function (index, css) {
-				    return (css.match (/(^|\s)color-\S+/g) || []).join(' ');
-				}).addClass('color-' + target.data('class'));
-			}
 			control.trigger('mouseleave');
 		},
 		set: function() {
