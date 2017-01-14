@@ -1,4 +1,3 @@
-- If anchor present in the url, navigate after page loads.
 - Blur pulsate effect
 - Add js to gulp
 - Load parenthesis wrong side

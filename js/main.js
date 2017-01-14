@@ -162,9 +162,6 @@ var helpers = {
         if (typeof selectorObject == 'undefined') return null;
     	keywords = (typeof keywords == 'undefined') ? ['id','className','element'] : keywords;
 
-    	var counter = 0;
-
-    	/* TODO: return nothing :( */
     	var getList = function(obj) {
 			list = [];
 
@@ -426,7 +423,11 @@ var Portfolio = function() {
 				});
 				$(options.selector.mainLogo.id).animate({
 					opacity:1
-				},2000);
+				},2000, function() {
+				    if (callback instanceof Function) {
+				        callback();
+                    }
+                });
 			},1000);
 
 		},
@@ -669,7 +670,7 @@ var Portfolio = function() {
 		}
 	};
 
-	pt.setPage = function(page,animateBg,close) { // main 'go-to-page' action
+	pt.setPage = function(page,animateBg,close,next) { // main 'go-to-page' action
 		if (pt.active !== page) {
 			if (pt.active !== '') {
 				pt.recent = pt.active;
@@ -681,7 +682,7 @@ var Portfolio = function() {
 					helpers.stretchAll();
 					if (pt.openAnimation[page] instanceof Function) {
 						$(options.selector.wrapperContainer.id).on('mousemove',pt.background.moveBg);
-						pt.openAnimation[page]();
+						pt.openAnimation[page](next);
 					}
 				});
 			});
@@ -792,7 +793,15 @@ var Portfolio = function() {
 		pt.renderTemplates();
 		pt.topControls.actions.language.setDefault();
 		pt.background.setBackground(options.background[options.settings.bg]);
-		pt.setPage('home',false,false);
+
+		var location = (window.location.hash != "")
+            ? function() {
+		        pt.setPage(window.location.hash.replace('#',''),true, true);
+		        }
+            : null;
+
+		pt.setPage('home',false,false,location);
+
 		pt.sound.start();
 		pt.topControls.set();
 		pt.menu.set();
@@ -1000,8 +1009,12 @@ var preloadPictures = function(pictureUrls, callback) {
 
             // Use the following callback methods to debug
             // in case of an unexpected behavior.
-            img.onerror = function () {};
-            img.onabort = function () {};
+            img.onerror = function () {
+                // very implemented
+            };
+            img.onabort = function () {
+                // very implemented
+            };
 
             img.src = src;
         } (new Image(), pictureUrls[i]));
