@@ -1036,7 +1036,7 @@ var MyPortfolio = new Portfolio();
 $(function() {
     $.views.helpers(helpers.converters);
 
-    helpers.checkSelectors(options.selector,undefined,10);
+    //helpers.checkSelectors(options.selector,undefined,10);
 
 	Preloader.load();
     $(window).resize(function() {
