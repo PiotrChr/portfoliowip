@@ -160,7 +160,7 @@ PORTFOLIO
 var helpers = {
     checkSelectors: function (selectorObject, keywords, duration) {
         if (typeof selectorObject == 'undefined') return null;
-    	keywords = keywords || ['id','className','element'];
+    	keywords = (typeof keywords == 'undefined') ? ['id','className','element'] : keywords;
 
     	var counter = 0;
 
@@ -173,12 +173,11 @@ var helpers = {
 
                 if (typeof obj[property] == "object") {
                 	list = list.concat(getList(obj[property]));
-				} else {
+                } else {
                     if (keywords.indexOf(property) !== -1) list.push(obj[property]);
-				}
+                }
             }
-
-			return list;
+          	return list;
 		};
 
 		var check = function(selectorArray, duration) {
@@ -195,13 +194,13 @@ var helpers = {
 				counter++;
 				if (counter === duration || selectorArray.length === 0) {
                     clearInterval(checkInterval);
-					console.log(selectorArray);
+                    console.error('Selectors not found: ' + selectorArray.length);
+					console.error(selectorArray);
 				}
 			}, 1000);
 		};
 
 		var list = getList(selectorObject);
-		console.log(list);
 		check(list, duration);
 	},
 
@@ -1036,7 +1035,7 @@ var MyPortfolio = new Portfolio();
 $(function() {
     $.views.helpers(helpers.converters);
 
-    helpers.checkSelectors(options.selector,'undefined',10);
+    helpers.checkSelectors(options.selector,undefined,10);
 
 	Preloader.load();
     $(window).resize(function() {
