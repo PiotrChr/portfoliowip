@@ -4,3 +4,5 @@
 - Each time images for translations are loaded???
 - Middle tick in loading list missing
 - Finish scss migration!
+- Finish js migration!
+- Some stars inside some outside <div> (data/issues/issue01.png)
