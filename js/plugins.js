@@ -1,15 +1,15 @@
 // Avoid `console` errors in browsers that lack a console.
 (function() {
-    var method;
-    var noop = function () {};
-    var methods = [
+    let method;
+    let noop = function () {};
+    let methods = [
         'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
         'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
         'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
         'timeline', 'timelineEnd', 'timeStamp', 'trace', 'warn'
     ];
-    var length = methods.length;
-    var console = (window.console = window.console || {});
+    let length = methods.length;
+    let console = (window.console = window.console || {});
 
     while (length--) {
         method = methods[length];
@@ -25,22 +25,12 @@
 
 /**************************************
 Custom Functions
-[ Easing addition ]
-***************************************/
-
-$.easing.smoothmove = function (x, t, b, c, d) {
-    return -c *(t/=d)*(t-2) + b;
-};
-
-/**************************************
-Custom Functions
 [ Center BG ]
 ***************************************/
 
-var centerImage = function(bgWidth,windowWidth) {
-    var newX = (bgWidth - windowWidth)/2;
-    return newX;
-}
+let centerImage = function(bgWidth,windowWidth) {
+    return (bgWidth - windowWidth)/2;
+};
 
 /**************************************
 Custom Functions
@@ -48,14 +38,14 @@ Custom Functions
 ***************************************/
 
 function drawPoly(selector, poly, bg, sizeArray) {
-    var canvas = $(selector)[0];
-    var ctx = canvas.getContext('2d');
+    let canvas = $(selector)[0];
+    let ctx = canvas.getContext('2d');
     ctx.canvas.height = sizeArray[1];
     ctx.canvas.width = sizeArray[0];
     ctx.fillStyle = bg;
     ctx.beginPath();
     ctx.moveTo(poly[0],poly[1]);
-    for( item=2 ; item < poly.length-1 ; item+=2 ){ctx.lineTo( poly[item] , poly[item+1] )}
+    for( let item=2 ; item < poly.length-1 ; item+=2 ){ctx.lineTo( poly[item] , poly[item+1] )}
     ctx.closePath();
     ctx.fill();
 }
@@ -64,3 +54,13 @@ function drawPoly(selector, poly, bg, sizeArray) {
 /**************************************
 END
 ***************************************/
+
+module.exports = {
+    drawPoly: drawPoly,
+    centerImage: centerImage,
+    setSmoothMoove: function ($) {
+        $.easing.smoothmove = function (x, t, b, c, d) {
+            return -c *(t/=d)*(t-2) + b;
+        };
+    }
+};

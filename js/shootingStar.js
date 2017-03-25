@@ -12,7 +12,7 @@
      - velocity (between 2 and 10)
      **/
 
-    ShootingStar = function( id ) {
+    let ShootingStar = function( id ) {
         this.n = 0;
         this.m = 0;
         this.defaultOptions = { velocity:8, starSize:10, life:300, beamSize:400, dir:-1 };

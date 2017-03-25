@@ -10,7 +10,7 @@ $asset = new BasicAssetic();
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title></title>
         <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-wNidth, initial-scale=1">
 
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <!-- Place favicon.ico in the root directory -->
@@ -21,23 +21,8 @@ $asset = new BasicAssetic();
         $asset->asset('js/vendor/hexList/hexList.css');
         $asset->asset('css/main.css');
         $asset->asset('js/vendor/modernizr-2.8.3.min.js');
-        $asset->asset('http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js',[
-                'internal' => false
-        ]);
-        ?>
-        <script>window.jQuery || document.write('<?php $asset->asset('js/vendor/jquery-2.1.3.min.js'); ?>')</script>
-        <?php
-        $asset->asset('node_modules/masonry-layout/dist/masonry.pkgd.min.js');
-        $asset->asset('js/vendor/jquery-ui.min.js');
-        $asset->asset('js/vendor/jsrender.min.js');
-        $asset->asset('js/vendor/jquery.backgroundpos.min.js');
-        $asset->asset('js/plugins.js');
-        $asset->asset('js/vendor/jquery.foggy.min.js');
-        $asset->asset('js/shootingStar.js');
-        $asset->asset('js/twinkleStars.js');
-        $asset->asset('js/vendor/hexList/js/hexList.js');
-        $asset->asset('js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css');
-        $asset->asset('js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js');
+//        $asset->asset('js/vendor/jquery.backgroundpos.min.js');
+        $asset->asset('js/node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css');
         $asset->asset('js/bin/app.bundle.js', ['addVersion' => true]);
         ?>
     </head>

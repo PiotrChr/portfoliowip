@@ -6,7 +6,8 @@ tmp/*
 tmp/
 server/settings.php
 js/vendor/*
-node_modules/*
+node_modules/
 .vagrant/
 css/web/
 js/bin/*
+js/bin/

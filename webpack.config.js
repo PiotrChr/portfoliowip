@@ -1,5 +1,7 @@
-var path = require('path');
-var babel = require('babel-loader');
+const path = require('path');
+const babel = require('babel-loader');
+const webpack = require('webpack');
+const node_dir = __dirname + '/node_modules';
 
 module.exports = {
     entry: {
@@ -9,6 +11,13 @@ module.exports = {
         filename: './js/bin/[name].bundle.js',
         sourceMapFilename: './js/bin/[name].bundle.map'
     },
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery"
+        })
+    ],
     devtool: '#source-map',
     module: {
         loaders: [
@@ -24,6 +33,10 @@ module.exports = {
     },
     resolve: {
         root: path.resolve('./js'),
-        extensions: ['', '.js']
+        extensions: ['', '.js'],
+        alias: {
+            'jquery-ui': node_dir + '/jquery-ui/build/release.js',
+            'jquery': node_dir + '/jquery/dist/jquery.js'
+        }
     }
 };
