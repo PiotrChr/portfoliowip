@@ -38,7 +38,7 @@ $asset = new BasicAssetic();
         $asset->asset('js/vendor/hexList/js/hexList.js');
         $asset->asset('js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css');
         $asset->asset('js/vendor/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js');
-        $asset->asset('js/bin/app.bundle.js');
+        $asset->asset('js/bin/app.bundle.js', ['addVersion' => true]);
         ?>
     </head>
     <body>
