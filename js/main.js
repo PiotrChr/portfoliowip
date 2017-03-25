@@ -147,6 +147,15 @@ var options = {
 		lowRes : "gfx/space_bg.jpg",
 		width : 0,
 		height: 0
+	},
+	pageSettings: {
+		work: {
+			grid: {
+				gutter: 25,
+                columnWidth: 290,
+                itemSelector: '.grid-item'
+			}
+		}
 	}
 };
 
@@ -451,12 +460,7 @@ var Portfolio = function() {
 			}).animate({
 				'opacity':1
 			}, function() {
-				var $grid = $('.grid').masonry({
-					// options
-					itemSelector: '.grid-item',
-					columnWidth: 300,
-					gutter:10
-				});
+				var $grid = $('.grid').masonry(options.pageSettings.work.grid);
 
 				if (callback instanceof Function) {
 					callback();
@@ -1036,8 +1040,7 @@ var MyPortfolio = new Portfolio();
 $(function() {
     $.views.helpers(helpers.converters);
 
-    //helpers.checkSelectors(options.selector,undefined,10);
-
+    helpers.checkSelectors(options.selector,undefined,10);
 	Preloader.load();
     $(window).resize(function() {
 		MyPortfolio.background.setPosition(false,false);

@@ -17,9 +17,5 @@ gulp.task('js', function() {
 		.pipe(gulp.dest('./'))
 });
 
-gulp.task('sass:watch', function () {
-	gulp.watch('./css/scss/*.scss', ['sass']);
-});
-
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', ['css','js']);
