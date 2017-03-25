@@ -14,6 +14,7 @@ gulp.task('css', function() {
 gulp.task('js', function() {
     return gulp.src('./js/main.js')
         .pipe(webpack( require('./webpack.config.js') ))
+		.pipe(gulp.dest('./'))
 });
 
 gulp.task('sass:watch', function () {
@@ -21,4 +22,4 @@ gulp.task('sass:watch', function () {
 });
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', ['css']);
+gulp.task('default', ['css','js']);

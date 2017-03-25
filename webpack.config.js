@@ -3,7 +3,7 @@ var babel = require('babel-loader');
 
 module.exports = {
     entry: {
-        app: './js/main.js',
+        app: './js/main.js'
     },
     output: {
         filename: './js/bin/[name].bundle.js',
