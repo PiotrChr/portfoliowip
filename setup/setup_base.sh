@@ -1,6 +1,10 @@
 #!/bin/bash
-syncFolder="/srv/www/"
-. $syncFolder'/setup/config.sh'
+
+DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+
+# Includes
+. "$DIR/config.sh"
 
 sudo export DEBIAN_FRONTEND=noninteractive
 ppa1="ppa:ondrej/php"

@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
-syncFolder="/var/www/html/portfolio"
-. $syncFolder'/scripts/config.sh'
+
+DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+
+# Includes
+. "$DIR/config.sh"
 
 # NODE & NPM
 msg "Installing Node"

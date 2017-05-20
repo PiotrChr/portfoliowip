@@ -39,6 +39,7 @@ Vagrant.configure("2") do |config|
     config.vm.hostname = "dev.portfolio"
 
     # Network
+    # Update setup/hosts.sh if IP is about to change
     config.vm.network "private_network", ip: "10.1.1.34"
 
     # Enabling NFS for better performance with Symfony.

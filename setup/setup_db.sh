@@ -1,13 +1,11 @@
 #!/bin/bash
 
-if [ "$1" == "local" ]; then
-    syncFolder="/srv/www/"
-else
-    syncFolder="/var/www/html/portfolio/"
-fi
+DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 
-syncFolder="/srv/www/"
-. $syncFolder'/setup/config.sh'
+# Includes
+. "$DIR/config.sh"
+
 msg "Sync folder set to: "$syncFolder
 
 dbPath="/var/lib/mysql/$dbName"

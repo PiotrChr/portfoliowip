@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
-syncFolder="/var/www/html/portfolio"
-. $syncFolder'/scripts/config.sh'
 
-jsVendorFolder="$syncFolder/js/vendor"
+DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+
+# Includes
+. "$DIR/config.sh"
+
+jsVendorFolder="$DIR/../js/vendor"
 
 # Download hexList library
 hexListDir=$jsVendorFolder"/hexList"
@@ -16,5 +20,5 @@ else
     warn "hexList directory already exists"
 fi
 
-. $syncFolder"/scripts/deployment_apt.sh"
-. $syncFolder"/scripts/deployment_npm_global.sh"
+. "$DIR/deployment_apt.sh"
+. "$DIR/deployment_npm_global.sh"
