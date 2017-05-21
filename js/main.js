@@ -11,8 +11,8 @@ require('malihu-custom-scrollbar-plugin');
 require('./vendor/jquery.foggy.min.js');
 require('./vendor/hexList/js/hexList');
 
-require('./shootingStar');
-require('./twinkleStars');
+require('./vendor/shootingStar/shootingStar');
+require('./vendor/twinkleStars/twinkleStars');
 
 import plugins from './plugins';
 
@@ -652,10 +652,16 @@ const Portfolio = function() {
 					callback();
 				}
 			} else if (animateBg === true) {
-				
+
+                let easing = 'smoothmove';
+
+                if (typeof $.easing[easing] !== 'function') {
+                    easing = undefined;
+                }
+
 				$(options.selector.backgroundContainer.id).stop(true, false).animate({
 					backgroundPosition: backgroundPosition
-				}, {queue:false,duration:1000,easing:'smoothmove',complete: function() {
+				}, {queue:false, duration:1000, easing:easing, complete: function() {
 					if (callback instanceof Function) {
 						callback();
 					}
@@ -670,6 +676,13 @@ const Portfolio = function() {
 			});
 		},
 		moveBg : function(e) {
+
+            let easing = 'smoothmove';
+
+            if (typeof $.easing[easing] !== 'function') {
+                easing = undefined;
+            }
+
 			const strength = 25;
 			const x = e.pageX;
 			const y = e.pageY;
@@ -677,9 +690,10 @@ const Portfolio = function() {
 			const movementY = (y - $(window).height()/2)/strength * -1;
 			const current = $(options.selector.backgroundContainer.id).css("background-position").split(" ");
 			const newBackgroundPosition = (-parseInt(pt.background.getX()) + parseInt(movementX)) + "px " + (parseInt(pt.background.getY(false)) + parseInt(movementY)) + "px";
+
 			$(options.selector.backgroundContainer.id).animate({
 				backgroundPosition: newBackgroundPosition
-			}, {queue:false,duration:1000,easing:'smoothmove'});
+			}, {queue:false, duration:1000, easing:easing});
 		}
 	};
 
