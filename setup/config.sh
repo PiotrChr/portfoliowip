@@ -21,5 +21,9 @@ BOLD=$(tput bold)
 NORMAL=$(tput sgr0)
 
 function msg {
-    echo -e $GREEN"|-- "$1$NC
+    echo -e $GREEN"[INFO]: "$1$NC
+}
+
+function warn {
+    echo -e $RED"[WARNING]: "$1$NC
 }

@@ -1,0 +1,14 @@
+WWW: http://46.165.253.193/
+IP: 46.165.253.193
+
+Local virtual host: porfolio
+Local IP: 10.1.1.34
+
+Notes:
+
+- Mysql bug (Doesn't accept '0000-00-00' dates):
+  Add into /etc/mysql/my.cnf
+
+  [mysqld]
+  sql_mode=ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+

@@ -1,0 +1,77 @@
+@import "includes/includes.scss";
+
+html {
+  color: $body-font-color;
+  font-size: $body-font-size-base;
+  line-height: $body-line-height;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+$logo: "logo";
+##{$logo} {
+  margin: 0 auto;
+  margin-bottom: 50px;
+  opacity: 0;
+
+  img {
+    display:block;
+    position: relative;
+    max-width: 50%;
+
+    @include media(h) {
+      display: none;
+    }
+  }
+}
+
+$backgroundContainer: "backgroundContainer";
+##{$backgroundContainer} {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: none;
+}
+
+$backgroundContainer: "preloaderBackgroundContainer";
+##{$backgroundContainer} {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow:hidden;
+}
+
+$backgroundContainer: "bodyWrapper";
+##{$backgroundContainer} {
+  display: table;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow:hidden;
+}
+
+$backgroundContainer: "bodyContainer";
+##{$backgroundContainer} {
+  display: table-cell;
+  vertical-align: middle;
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+}
+
+$backgroundContainer: "wrapperContainer";
+##{$backgroundContainer} {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  overflow-y:auto;
+  display:block;
+}

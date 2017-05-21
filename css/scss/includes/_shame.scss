@@ -1,0 +1,76 @@
+
+.grid {
+  font-family:'Open Sans','sans-serif';
+}
+
+.grid-item {
+  width:300px;
+  margin-bottom:10px;
+  overflow:hidden;
+  border-radius:1px;
+  -webkit-box-shadow: -2px 2px 5px 0px rgba(0,0,0,0.35);
+  -moz-box-shadow: -2px 2px 5px 0px rgba(0,0,0,0.35);
+  box-shadow: -2px 2px 5px 0px rgba(0,0,0,0.35);
+}
+
+.grid-header .image-overlay {
+  position:relative;
+  width:100%;
+}
+
+.grid-header {
+  border-bottom:1px solid #E0E0E0;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,000000+100 */
+  background: black; /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover,  #ffffff 0%, #000000 100%); /* FF3.6-15 */
+  background: -webkit-radial-gradient(center, ellipse cover,  #ffffff 0%,#000000 100%); /* Chrome10-25,Safari5.1-6 */
+  background: radial-gradient(ellipse at center,  #ffffff 0%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+
+.grid-header img {
+  position:relative;
+  width:100%;
+  cursor:pointer;
+}
+
+.grid-content {
+  min-height:200px;
+  background: white;
+  color:black;
+  padding:10px;
+  font-size:12px;
+}
+.grid-content-time {
+  overflow: hidden;
+  clear: both;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  color: #9E9E9E;
+  font-size: 11px;
+}
+.grid-content-time .fa {
+  margin-right:5px;
+}
+.grid-content-title {
+  font-size: 13px;
+  font-weight: bold;
+  color:#07735B;
+}
+.grid-content-description {
+
+}
+
+.grid-footer {
+  font-size:13px;
+  color:black;
+  min-height:15px;
+  background:#F9F9F9;
+  border-top:1px solid #E0E0E0;
+  padding: 9px 8px;
+}
+.grid-footer .fa {
+
+  color: #008064;
+}

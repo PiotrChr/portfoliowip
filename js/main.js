@@ -1,8 +1,26 @@
 /**************************************
+ * IMPORTS
+ */
+require('jquery');
+require('jquery-ui-bundle');
+
+require('jsrender')(jQuery);
+require('masonry-layout');
+require('malihu-custom-scrollbar-plugin');
+
+require('./vendor/jquery.foggy.min.js');
+require('./vendor/hexList/js/hexList');
+
+require('./vendor/twinkleStars/twinkleStars');
+
+import plugins from './plugins';
+import ShootingStar from './vendor/shootingStar/ShootingStarClass';
+
+/**************************************
 OPTIONS
 ***************************************/
 
-var options = {
+let options = {
 	settings: {
 		bg: 'hiRes', // hiRes | lowRes
 		language: 'en', // de | pl | en
@@ -19,45 +37,45 @@ var options = {
 			id: '#bodyContainer'
 		},
 		preloader: {
-			id: '#mainPreloader',
+			id: '#preloader',
 			sections: {
 				music: {
 					description: {
-						id: '#loadList_music span.loadList_description'
+						id: '#loadList_music .preloader-container__loadList-description'
 					},
 					tickMark: {
-						id: '#loadList_music span.loadList_tick'
+						id: '#loadList_music .preloader-container__loadList-tick'
 					}
 				},
 				image: {
 					description: {
-						id: '#loadList_image span.loadList_description',
+						id: '#loadList_image .preloader-container__loadList-description'
 					},
 					tickMark: {
-						id: '#loadList_image span.loadList_tick'
+						id: '#loadList_image .preloader-container__loadList-tick'
 					}
 				},
 				sections: {
 					description: {
-						id: '#loadList_sections span.loadList_description'
+						id: '#loadList_sections .preloader-container__loadList-description'
 					} ,
 					tickMark: {
-						id: '#loadList_sections span.loadList_tick'
+						id: '#loadList_sections .preloader-container__loadList-tick'
 					}
 				}
 			},
 			list: {
-				id: '#mainPreloader_rightContainer_loadList'
+				id: '#preloader__loadList'
 			},
 			text: {
-				id: '#mainPreloader_leftContainer_loadingText'
+				id: '#preloader_loadingText'
 			},
 			parenthesis: {
 				right: {
-					id: '#mainPreloader_rightContainer_rightParenthesis'
+					id: '.preloader-container__parenthesis.-right'
 				},
 				left: {
-					id: '#mainPreloader_rightContainer_leftParenthesis'
+					id: '.preloader-container__parenthesis.-left'
 				}
 			}
 		},
@@ -92,11 +110,7 @@ var options = {
 			},
 			span: {
 				element: '.topControls_select span'
-			},
-			status: {
-				className: '.topControl_status'
-			}
-		},
+			}},
 		topBar: {
 			id: '#topBar'
 		},
@@ -151,17 +165,81 @@ var options = {
 		lowRes : "gfx/space_bg.jpg",
 		width : 0,
 		height: 0
+	},
+	pageSettings: {
+		work: {
+			grid: {
+				gutter: 25,
+                columnWidth: 290,
+                itemSelector: '.grid-item'
+			}
+		}
 	}
 };
 
 /**************************************
 PORTFOLIO
 ***************************************/
-var helpers = {
+const helpers = {
+    checkSelectors: function (selectorObject, keywords, duration) {
+        if (typeof selectorObject === 'undefined') return null;
+    	keywords = (typeof keywords === 'undefined') ? ['id','className','element'] : keywords;
+
+    	const getList = function(obj) {
+			let list = [];
+
+			for (let property in obj) {
+                if (!obj.hasOwnProperty(property)) continue;
+
+                if (typeof obj[property] === "object") {
+                	list = list.concat(getList(obj[property]));
+                } else {
+                    if (keywords.indexOf(property) !== -1) list.push(obj[property]);
+                }
+            }
+          	return list;
+		};
+
+		const check = function(selectorArray, duration) {
+			let counter = 0;
+
+			let checkInterval = setInterval(function() {
+				let i = selectorArray.length;
+				while (i--) {
+					if ($(selectorArray[i]).length > 0) {
+						selectorArray.splice(i,1);
+					}
+				}
+
+				counter++;
+				if (counter === duration || selectorArray.length === 0) {
+                    clearInterval(checkInterval);
+                    console.error('Selectors not found: ' + selectorArray.length);
+					console.error(selectorArray);
+				}
+			}, 1000);
+		};
+
+		const list = getList(selectorObject);
+		check(list, duration);
+	},
+
+   	arrayUnique: function(array) {
+		let a = array.concat();
+		for(let i=0; i<a.length; ++i) {
+			for(let j=i+1; j<a.length; ++j) {
+				if(a[i] === a[j])
+					a.splice(j--, 1);
+			}
+		}
+
+		return a;
+	},
+
 	stretchAll: function() {
-		var viewportHeight = $(window).innerHeight();
-		var newHeight = viewportHeight - options.settings.topBarHeight;
-		var $toStretch = $('html').find('.auto-height');
+		const viewportHeight = $(window).innerHeight();
+		const newHeight = viewportHeight - options.settings.topBarHeight;
+		const $toStretch = $('html').find('.auto-height');
 
 		$.each($toStretch, function() {
 			$(this).css({
@@ -171,15 +249,15 @@ var helpers = {
 	},
 	converters: {
 		prettyDate: function(string) {
-			var dateObject = new Date(Date.parse(string));
+			const dateObject = new Date(Date.parse(string));
 			return dateObject.toDateString();
 		}
 	}
 };
 
 
-var Portfolio = function() {
-	var pt = this;
+const Portfolio = function() {
+	const pt = this;
 	pt.active = ''; // active page
 	pt.recent = ''; // recent page
 	pt.current = 0;
@@ -246,15 +324,16 @@ var Portfolio = function() {
 			}
 		},
 		open: function(event, optionalTarget) {
-            var target = (optionalTarget !== 'undefined') ? optionalTarget : $(event.currentTarget);
-            var targetOptions = target.data('options').split(',');
-            var current = target.data('current');
-            var html = [];
-            var control = target.closest(options.selector.topControls.className);
+            const target = (optionalTarget !== 'undefined') ? optionalTarget : $(event.currentTarget);
+            let targetOptions = target.data('options').split(',');
+            let current = target.data('current');
+            let html = [];
+            const control = target.closest(options.selector.topControls.className);
 
-            if (control.data('switch') == 'toggle') {
-                var action = control.attr('id').split('_')[1];
-                if (control.data('current') == 'on') {
+            if (control.data('switch') === 'toggle') {
+                let action = control.attr('id').split('_')[1];
+
+                if (control.data('current') === 'on') {
                     target.find('.topControl_icon').removeClass('fa-volume-up').addClass('fa-volume-off');
                     target.data('current','off');
                     if (pt.topControls.actions[action]['off'] instanceof Function) {
@@ -269,7 +348,7 @@ var Portfolio = function() {
                 }
             } else {
                 $.each(targetOptions,function(k,v) {
-                    var dataClass = '';
+                    let dataClass = '';
                     if (v.indexOf('.') !== -1) {
                         v = v.split('.');
                         dataClass = 'data-class=\'' + v[1] + '\'';
@@ -282,7 +361,7 @@ var Portfolio = function() {
                 });
 
                 html = html.join('');
-                var topControls = target.find(options.selector.topControls.select.className);
+                const topControls = target.find(options.selector.topControls.select.className);
                 topControls.html(html);
                 topControls.stop().css({
                     'display': 'block',
@@ -294,9 +373,9 @@ var Portfolio = function() {
             }
 		},
 		toggle: function(event) {
-			var target = $(event.currentTarget);
-            var topControls = target.find(options.selector.topControls.select.className);
-            var visible = topControls.css('display') !== 'none';
+			const target = $(event.currentTarget);
+            const topControls = target.find(options.selector.topControls.select.className);
+            const visible = topControls.css('display') !== 'none';
             if (visible && target.data('switch') !== 'toggle') {
                 pt.topControls.close(null,target);
             } else {
@@ -305,9 +384,9 @@ var Portfolio = function() {
 
 		},
 		close: function(event, optionalTarget) {
-            var target = (optionalTarget !== 'undefined') ? optionalTarget : $(event.currentTarget);
-			var topControls = target.find(options.selector.topControls.select.className);
-			if (target.data('switch') == 'toggle') {
+            let target = (optionalTarget !== 'undefined') ? optionalTarget : $(event.currentTarget);
+			const topControls = target.find(options.selector.topControls.select.className);
+			if (target.data('switch') === 'toggle') {
 
             } else {
                 topControls.stop().animate({
@@ -322,22 +401,15 @@ var Portfolio = function() {
             }
 		},
 		change: function(event) {
-			var target = $(event.target);
-			var option = target.data('option') || target.closest('span[data-option]').data('option');
-			var control = target.closest(options.selector.topControls.className);
-			var description = control.find(options.selector.topControls.status.className);
-			var action = control.attr('id').split('_')[1];
+			const target = $(event.target);
+			let option = target.data('option') || target.closest('span[data-option]').data('option');
+			const control = target.closest(options.selector.topControls.className);
+			const action = control.attr('id').split('_')[1];
 
 			if (pt.topControls.actions[action][option] instanceof Function) {
                 pt.topControls.actions[action][option]();
 			}
 			control.data('current',option);
-
-			if (typeof target.data('class') !== 'undefined') {
-				description.removeClass(function (index, css) {
-				    return (css.match (/(^|\s)color-\S+/g) || []).join(' ');
-				}).addClass('color-' + target.data('class'));
-			}
 			control.trigger('mouseleave');
 		},
 		set: function() {
@@ -353,8 +425,8 @@ var Portfolio = function() {
 		home: function(callback) {
 			$('#_home').css({display:'table'});
 
-			drawPoly(options.selector.cp.left.id, pt.settings.polys.cp1, '#000', [300, 80]);
-			drawPoly(options.selector.cp.right.id, pt.settings.polys.cp2, '#fff', [360, 80]);
+			plugins.drawPoly(options.selector.cp.left.id, pt.settings.polys.cp1, '#000', [300, 80]);
+			plugins.drawPoly(options.selector.cp.right.id, pt.settings.polys.cp2, '#fff', [360, 80]);
 
 			setTimeout(function() {
 				var _navLink = $(options.selector.mainNav.a.element);
@@ -368,7 +440,11 @@ var Portfolio = function() {
 				});
 				$(options.selector.mainLogo.id).animate({
 					opacity:1
-				},2000);
+				},2000, function() {
+				    if (callback instanceof Function) {
+				        callback();
+                    }
+                });
 			},1000);
 
 		},
@@ -403,12 +479,7 @@ var Portfolio = function() {
 			}).animate({
 				'opacity':1
 			}, function() {
-				var $grid = $('.grid').masonry({
-					// options
-					itemSelector: '.grid-item',
-					columnWidth: 300,
-					gutter:10
-				});
+				var $grid = $('.grid').masonry(options.pageSettings.work.grid);
 
 				if (callback instanceof Function) {
 					callback();
@@ -547,10 +618,10 @@ var Portfolio = function() {
 
 	pt.content = {
 		setWrapperSize: function() {
-			var wrapper = $(options.selector.wrapperContainer.id);
-			var headerHeight = $(options.selector.header.id).height();
-			var windowHeight = $(window).height();
-			var wrapperHeight = parseInt(windowHeight) - parseInt(headerHeight);
+			const wrapper = $(options.selector.wrapperContainer.id);
+			const headerHeight = $(options.selector.header.id).height();
+			const windowHeight = $(window).height();
+			let wrapperHeight = parseInt(windowHeight) - parseInt(headerHeight);
 			wrapper.css({
 				'height': wrapperHeight + 'px',
 				'margin-top': headerHeight + 'px'
@@ -560,7 +631,7 @@ var Portfolio = function() {
 
 	pt.background = { // background actions
 		getX : function() {
-			return centerImage(options.background.width,$(window).width());
+			return plugins.centerImage(options.background.width,$(window).width());
 		},
 		getY : function(page) {
 			if (page === false) {
@@ -569,9 +640,10 @@ var Portfolio = function() {
 			return pt.settings.bgLocation[page];
 		},
 		setPosition : function(page,animateBg,callback) {
-			var leftOffset = pt.background.getX();
-			var topOffset = pt.background.getY(page);
-			var backgroundPosition = -leftOffset + "px " + topOffset + "px";
+			const leftOffset = pt.background.getX();
+			const topOffset = pt.background.getY(page);
+			const backgroundPosition = -leftOffset + "px " + topOffset + "px";
+
 			if (animateBg === false) {
 				$(options.selector.backgroundContainer.id).css({
 					"background-position" : backgroundPosition
@@ -580,10 +652,16 @@ var Portfolio = function() {
 					callback();
 				}
 			} else if (animateBg === true) {
-				
+
+                let easing = 'smoothmove';
+
+                if (typeof $.easing[easing] !== 'function') {
+                    easing = undefined;
+                }
+
 				$(options.selector.backgroundContainer.id).stop(true, false).animate({
 					backgroundPosition: backgroundPosition
-				}, {queue:false,duration:1000,easing:'smoothmove',complete: function() {
+				}, {queue:false, duration:1000, easing:easing, complete: function() {
 					if (callback instanceof Function) {
 						callback();
 					}
@@ -598,20 +676,28 @@ var Portfolio = function() {
 			});
 		},
 		moveBg : function(e) {
-			var strength = 25;
-			var x = e.pageX;
-			var y = e.pageY;
-			var movementX = (x - $(window).width()/2)/strength * -1;
-			var movementY = (y - $(window).height()/2)/strength * -1;
-			var current = $(options.selector.backgroundContainer.id).css("background-position").split(" ");
-			var newBackgroundPosition = (-parseInt(pt.background.getX()) + parseInt(movementX)) + "px " + (parseInt(pt.background.getY(false)) + parseInt(movementY)) + "px";
+
+            let easing = 'smoothmove';
+
+            if (typeof $.easing[easing] !== 'function') {
+                easing = undefined;
+            }
+
+			const strength = 25;
+			const x = e.pageX;
+			const y = e.pageY;
+			const movementX = (x - $(window).width()/2)/strength * -1;
+			const movementY = (y - $(window).height()/2)/strength * -1;
+			const current = $(options.selector.backgroundContainer.id).css("background-position").split(" ");
+			const newBackgroundPosition = (-parseInt(pt.background.getX()) + parseInt(movementX)) + "px " + (parseInt(pt.background.getY(false)) + parseInt(movementY)) + "px";
+
 			$(options.selector.backgroundContainer.id).animate({
 				backgroundPosition: newBackgroundPosition
-			}, {queue:false,duration:1000,easing:'smoothmove'});
+			}, {queue:false, duration:1000, easing:easing});
 		}
 	};
 
-	pt.setPage = function(page,animateBg,close) { // main 'go-to-page' action
+	pt.setPage = function(page,animateBg,close,next) { // main 'go-to-page' action
 		if (pt.active !== page) {
 			if (pt.active !== '') {
 				pt.recent = pt.active;
@@ -623,7 +709,7 @@ var Portfolio = function() {
 					helpers.stretchAll();
 					if (pt.openAnimation[page] instanceof Function) {
 						$(options.selector.wrapperContainer.id).on('mousemove',pt.background.moveBg);
-						pt.openAnimation[page]();
+						pt.openAnimation[page](next);
 					}
 				});
 			});
@@ -643,7 +729,7 @@ var Portfolio = function() {
 					ajaxes[pt.current]['callback'](response);
 				}
 
-				if (parseInt(pt.current) == parseInt(ajaxes.length-1)) {
+				if (parseInt(pt.current) === parseInt(ajaxes.length-1)) {
 					if (callback instanceof Function) {
 						callback();
 					}
@@ -660,8 +746,8 @@ var Portfolio = function() {
 			pt.current = 0;
 			options.isLoaded.music = true;
 			preloadPictures(options.toLoad.images, function(img, done) {
-				var src = img.src;
-				var name = src.split('/').pop();
+				const src = img.src;
+				const name = src.split('/').pop();
 				if (options.background[options.settings.bg] === 'gfx/'+name) {
 					options.background.width = img.width;
 					options.background.height = img.height;
@@ -691,13 +777,13 @@ var Portfolio = function() {
 	pt.renderTemplates = function() {
 		if (options.loaded.data.length !== 0) {
 			$.each(options.loaded.data, function() {
-				var self = this;
+				let self = this;
 				if (self.error !== true || typeof self.error === 'undefined') {
-					var result = self.result;
-					var resource = self.resource;
-					var template = $('#' + resource + 'Template');
-					var container = $('#_' + resource);
-					var html = template.render(result);
+					const result = self.result;
+					const resource = self.resource;
+					const template = $('#' + resource + 'Template');
+					const container = $('#_' + resource);
+					const html = template.render(result);
 					container.html(html);
 				}
 			});
@@ -734,14 +820,22 @@ var Portfolio = function() {
 		pt.renderTemplates();
 		pt.topControls.actions.language.setDefault();
 		pt.background.setBackground(options.background[options.settings.bg]);
-		pt.setPage('home',false,false);
+
+		let location = (window.location.hash !== "")
+            ? function() {
+		        pt.setPage(window.location.hash.replace('#',''),true, true);
+		        }
+            : null;
+
+		pt.setPage('home',false,false,location);
+
 		pt.sound.start();
 		pt.topControls.set();
 		pt.menu.set();
 		pt.scrollBar.set();
 		pt.binds.set();
 		$('#backgroundContainer').foggy(false);
-		var shootingStarObj = new ShootingStar( "#twinkleStars" );
+		const shootingStarObj = new ShootingStar( "#twinkleStars" );
 		shootingStarObj.launch(20);
 	};
 };
@@ -751,21 +845,20 @@ PRELOADER
 ***************************************/
 
 function MainPreloader() {
-	var pr = this;
+	let pr = this;
 
 	pr.preloaderTemplate = 'content/preloader.html';
 	pr.preloaderImage = 'gfx/preloader_bg.jpg';
 	pr.animate = function(callback) {
 		$(options.selector.preloader.text.id).fadeIn(function() {
-			$(options.selector.preloader.parenthesis.right.id).css({
+			$(options.selector.preloader.parenthesis.left.id).css({
 				"display":"block",
 				"opacity": 0
 			}).animate({
 				"right" : "0px",
 				"opacity" : 1
 			}, 200);
-
-			$(options.selector.preloader.parenthesis.left.id).css({
+			$(options.selector.preloader.parenthesis.right.id).css({
 				"display":"block",
 				"opacity": 0
 			}).animate({
@@ -797,6 +890,8 @@ function MainPreloader() {
 
 	};
 	pr.unload = function(callback) {
+
+		/* TODO: Toggle classes instead inlining css */
 		$(options.selector.preloader.list.id).fadeOut(500, function() {
 			$(options.selector.preloader.parenthesis.left.id).animate({
 				"right" : "121px",
@@ -852,8 +947,8 @@ function MainPreloader() {
 		});
 	};
 	pr.checkIfLoaded = function(ld,callback) {
-		var checkInterval = setInterval(function() {
-			var item = options.isLoaded[ld];
+		let checkInterval = setInterval(function() {
+			let item = options.isLoaded[ld];
 			if (item === true) {
 				clearInterval(checkInterval);
 				if (callback instanceof Function) {
@@ -864,29 +959,29 @@ function MainPreloader() {
 
 	};
 	pr.checkIfLoadedAll = function(callback) {
-		var music = options.selector.preloader.sections.music;
-		var image = options.selector.preloader.sections.image;
-		var sections = options.selector.preloader.sections.sections;
-		var currentResource;
+		const music = options.selector.preloader.sections.music;
+		const image = options.selector.preloader.sections.image;
+		const sections = options.selector.preloader.sections.sections;
+		let currentResource;
 
-		var pulsate = function(selector) {
+		const pulsate = function(selector) {
 			$(selector).effect('pulsate',{times: 15}, 10000, function() {
 				notLoadedError();
 				$(this).addClass('u-warn-color');
 			});
 		};
 
-		var notLoadedError = function() {
+		const notLoadedError = function() {
 			console.error('Took too long to load a resource: %c' + currentResource, 'color: red; font-weight: 600'); // mark it red or something
 		};
 
-		var stop = function(selector) {
+		const stop = function(selector) {
 			$(selector).stop(true,false).css({
 				opacity:'1'
 			});
 		};
 
-		var switchLoader = function(resourceName, switchFrom, switchTo) {
+		const switchLoader = function(resourceName, switchFrom, switchTo) {
 			currentResource = resourceName;
 			if (false !== switchFrom) {
 				stop(switchFrom.description.id);
@@ -919,19 +1014,19 @@ Custom Functions
 [ Picture Preloader ]
 ***************************************/
 
-var preloadPictures = function(pictureUrls, callback) {
+const preloadPictures = function(pictureUrls, callback) {
 	if (!(pictureUrls instanceof Array)) {
 		pictureUrls = [pictureUrls];
 	}
 
-    var i,
+    let i,
         j,
         loaded = 0;
 
     for (i = 0, j = pictureUrls.length; i < j; i++) {
         (function (img, src) {
             img.onload = function () {
-                if (++loaded == pictureUrls.length && callback) {
+                if (++loaded === pictureUrls.length && callback) {
                   callback(this, true);
                 } else {
 					callback(this, false);
@@ -940,8 +1035,12 @@ var preloadPictures = function(pictureUrls, callback) {
 
             // Use the following callback methods to debug
             // in case of an unexpected behavior.
-            img.onerror = function () {};
-            img.onabort = function () {};
+            img.onerror = function () {
+                // very implemented
+            };
+            img.onabort = function () {
+                // very implemented
+            };
 
             img.src = src;
         } (new Image(), pictureUrls[i]));
@@ -953,9 +1052,9 @@ Custom Functions
 [ Template *Ajaxer ]
 ***************************************/
 
-var getTemplate = function(name,callback) {
+const getTemplate = function(name,callback) {
 
-	var templateFile = 'content/' + name + '.html';
+	const templateFile = 'content/' + name + '.html';
 
 	$.ajax({
 		type: 'GET',
@@ -969,15 +1068,19 @@ var getTemplate = function(name,callback) {
 
 };
 
-var Preloader = new MainPreloader();
-var MyPortfolio = new Portfolio();
+const Preloader = new MainPreloader();
+const MyPortfolio = new Portfolio();
 
 $(function() {
-	$.views.helpers(helpers.converters);
+    $.views.helpers(helpers.converters);
+
+    helpers.checkSelectors(options.selector,undefined,10);
 	Preloader.load();
-	$(window).resize(function() {
+    $(window).resize(function() {
 		MyPortfolio.background.setPosition(false,false);
 		MyPortfolio.content.setWrapperSize();
 	});
 
 });
+
+
