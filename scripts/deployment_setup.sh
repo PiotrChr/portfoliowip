@@ -1,20 +1,25 @@
 #!/usr/bin/env bash
-syncFolder="/var/www/html/portfolio"
-. $syncFolder'/scripts/config.sh'
 
-jsVendorFolder="$syncFolder/js/vendor"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Download hexList library
-hexListDir=$jsVendorFolder"/hexList"
-hexListGitUrl="git@bitbucket.org:PiotrChr/hexlist.git"
+# Includes
+. "$DIR/config.sh"
 
-msg "Cloning HexList library"
-if [ ! -d "$hexListDir" ]; then
-    mkdir "$hexListDir"
-    cd "$hexListDir" && git clone "$hexListGitUrl" .
-else
-    warn "hexList directory already exists"
-fi
+function clone {
+    NAME=$1
+    REPODIR=$2
+    REPO=$3
 
-. $syncFolder"/scripts/deployment_apt.sh"
-. $syncFolder"/scripts/deployment_npm_global.sh"
+    msg "Cloning $NAME library"
+
+    if [ ! -d "$REPODIR" ]; then
+        mkdir "$REPODIR"
+        msg "$REPODIR created"
+
+        cd "$REPODIR" && git clone "$REPO" . && cd "$DIR"
+        msg "$NAME cloned"
+    else
+        warn "$REPODIR directory already exists"
+    fi
+
+}

@@ -1,0 +1,13 @@
+:TODO = "Blur pulsate effect
+:TODO = "Fix twinkling stars to paint on canvas (or restrict somehow creation of new dom elemenets)
+:TODO = "Stars don't appear with fade, and they should
+:TODO = "Each time images for translations are loaded???
+:TODO = "Finish scss migration!
+:TODO = "Finish js migration!
+:TODO = "Create deployment manuals."
+
+:DONE = "switch lang,music on click for mobile devices"
+:TODO = "hexList font size does not match hex"
+:DONE = "mobile nav"
+:DONE = "move controls to be accesible all the time"
+:DONE = "adjust main menu to be in the center of the page (calculate height probably?)"

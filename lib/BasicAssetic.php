@@ -55,9 +55,15 @@ class BasicAssetic {
          * @var $returnPath
          * @var $addTags
          * @var $leaveNotice
+         * @var $addVersion
          */
+
         $exists = ($internal) ? file_exists($file) : $this->checkRemote($file);
         if ($exists) {
+            if ($addVersion) {
+                $date = (new DateTimeImmutable())->getTimestamp();
+                $file = $file . '?' . $date;
+            }
             if ($returnPath) {
                 echo $this->insertTag[$fileType][0].$file.$this->insertTag[$fileType][1];
             } else {
