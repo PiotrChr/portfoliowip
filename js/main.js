@@ -11,10 +11,10 @@ require('malihu-custom-scrollbar-plugin');
 require('./vendor/jquery.foggy.min.js');
 require('./vendor/hexList/js/hexList');
 
-require('./vendor/shootingStar/shootingStar');
 require('./vendor/twinkleStars/twinkleStars');
 
 import plugins from './plugins';
+import ShootingStar from './vendor/shootingStar/ShootingStarClass';
 
 /**************************************
 OPTIONS
