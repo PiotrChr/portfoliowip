@@ -18,6 +18,8 @@ $flex: 'flex';
   }
 
   &__cell {
-
+    &--full {
+      flex: 0 0 100%;
+    }
   }
 }

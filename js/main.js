@@ -423,7 +423,7 @@ const Portfolio = function() {
 	
 	pt.openAnimation = { // Page animations on open
 		home: function(callback) {
-			$('#_home').css({display:'table'});
+			$('#_home').css({display:'flex'});
 
 			plugins.drawPoly(options.selector.cp.left.id, pt.settings.polys.cp1, '#000', [300, 80]);
 			plugins.drawPoly(options.selector.cp.right.id, pt.settings.polys.cp2, '#fff', [360, 80]);
